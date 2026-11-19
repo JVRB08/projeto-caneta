@@ -1,0 +1,88 @@
+---
+interface Props {
+  words?: string[];
+  speed?: string;
+  class?: string;
+}
+
+const {
+  words = [
+    "Precisão Suíça 0.1mm",
+    "Fluidez Absoluta",
+    "A Alma do Desenho",
+    "Carbeto de Tungstênio",
+    "Traço Contínuo 1.200m",
+    "Tinta Carbon Black",
+    "Secagem Instantânea 0.8s",
+    "Equilíbrio Baricêntrico",
+    "A Arte da Caligrafia",
+    "Pressão Neutra",
+    "Design Monobloco 11.8g",
+    "Inspiração Sem Limites",
+    "ARTOOLS Pigmentum"
+  ],
+  speed = "75s",
+  class: className = ""
+} = Astro.props;
+---
+
+<!-- NOVA DOBRA: MARQUEE INFINITO (1 LINHA // ALTURA REDUZIDA // VELOCIDADE LENTA // 100% PRETO // FONTE CURSIVA) -->
+<section
+  id="marqueeSection"
+  class:list={[
+    "relative z-20 w-full overflow-hidden py-8 sm:py-12 border-t border-b border-stone-800/80 text-white select-none",
+    className
+  ]}
+  style="background-color: #000000;"
+  aria-label="A Expressão Cursiva da Caneta ARTOOLS"
+>
+  <!-- Background Glow & Grid sutil em tom ultra-escuro -->
+  <div
+    class="absolute inset-0 pointer-events-none opacity-20"
+    style="background-image: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 65%);"
+  ></div>
+
+  <!-- Container do Marquee com Máscara de Desfoque nas Bordas (Gradiente Fade) -->
+  <div class="relative w-full overflow-hidden flex items-center">
+    <!-- Vinhetas laterais para fade infinito suave no preto 100% -->
+    <div
+      class="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-44 md:w-64 z-30"
+      style="background: linear-gradient(to right, #000000 0%, rgba(0, 0, 0, 0.8) 40%, transparent 100%);"
+    ></div>
+    <div
+      class="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-44 md:w-64 z-30"
+      style="background: linear-gradient(to left, #000000 0%, rgba(0, 0, 0, 0.8) 40%, transparent 100%);"
+    ></div>
+
+    <!-- Linha Única: Movimento Lento para a Esquerda (Cursive) -->
+    <div class="w-full overflow-hidden flex items-center py-1">
+      <div
+        class="marquee-track-left flex items-center gap-8 sm:gap-14 group cursor-grab"
+        style={`animation-duration: ${speed};`}
+      >
+        <!-- Bloco 1 -->
+        <div class="flex items-center gap-8 sm:gap-14 shrink-0">
+          {words.map((word) => (
+            <div class="flex items-center gap-8 sm:gap-14">
+              <span class="font-cursive text-3xl sm:text-5xl md:text-6xl text-white font-medium hover:text-emerald-300 transition-colors whitespace-nowrap drop-shadow-[0_2px_12px_rgba(255,255,255,0.15)]">
+                {word}
+              </span>
+              <span class="text-neutral-600 text-lg sm:text-xl font-mono select-none">✦</span>
+            </div>
+          ))}
+        </div>
+        <!-- Bloco 2 (Duplicado para loop contínuo sem saltos) -->
+        <div class="flex items-center gap-8 sm:gap-14 shrink-0" aria-hidden="true">
+          {words.map((word) => (
+            <div class="flex items-center gap-8 sm:gap-14">
+              <span class="font-cursive text-3xl sm:text-5xl md:text-6xl text-white font-medium hover:text-emerald-300 transition-colors whitespace-nowrap drop-shadow-[0_2px_12px_rgba(255,255,255,0.15)]">
+                {word}
+              </span>
+              <span class="text-neutral-600 text-lg sm:text-xl font-mono select-none">✦</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,1625 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import AbsoluteTouchCard from '../components/AbsoluteTouchCard.astro';
+import MarqueeSection from '../components/MarqueeSection.astro';
+import WritingVideoSection from '../components/WritingVideoSection.astro';
+import TechSpecsSection from '../components/TechSpecsSection.astro';
+---
+
+<Layout>
+    <!-- Barra de Progresso Global na Borda Inferior -->
+    <div class="global-scrub-bar fixed bottom-0 left-0 w-full h-[2px] bg-stone-300/40 z-50 pointer-events-none"
+        aria-hidden="true">
+        <div class="h-full w-0 bg-stone-900 transition-all duration-75" id="globalScrubFill"></div>
+    </div>
+
+    <!-- MAIN HERO (SCRUB TRACK + PALCO PINNED) -->
+    <main class="hero-scrub-track relative" id="heroTrack">
+        <section class="hero-stage flex items-center justify-center bg-[#EAEAE5]" id="heroStage"
+            aria-label="Apresentação Interativa da Caneta ARTOOLS">
+
+            <!-- Fundo Visual 100% Tela: Vídeo Nativo de Alta Fidelidade (Modelo video2.mp4) + Fallback Canvas -->
+            <div class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden z-0"
+                id="visualContainer">
+                <!-- Primário: Canvas Sequence (Padrão Apple - 60/120fps fluido) -->
+                <canvas id="heroCanvas" class="hero-canvas" aria-label="Caneta ARTOOLS animada no canvas"></canvas>
+
+                <!-- Motor Primário: Vídeo Nativo MP4 em Tela Cheia no Fundo do Hero -->
+                <video id="heroVideo" class="hero-video" tabindex="-1" muted playsinline webkit-playsinline
+                    preload="auto" src="/assets/videos/video2.mp4" aria-label="Vídeo coreografado da caneta ARTOOLS">
+                    <source src="/assets/videos/video2.mp4" type="video/mp4">
+                    <source src="/assets/raw_files/video2.mp4" type="video/mp4">
+                    <source src="/video2.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <!-- Palco em Primeiro Plano: Layout Exato da Referência Visual -->
+            <div
+                class="relative w-full max-w-[1440px] mx-auto h-full px-6 md:px-12 pt-20 pb-8 flex items-center justify-between z-20 pointer-events-none">
+
+                <!-- Coluna Esquerda: Headline, Descrição e Botões -->
+                <div class="w-full max-w-xl flex flex-col justify-center pointer-events-auto z-20"
+                    id="heroLeftContent">
+
+                    <!-- Headline Exata da Referência: "A caneta mais tecnológica do mundo." -->
+                    <h1 class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[0.92] mb-6 text-stone-900 flex flex-col items-start"
+                        id="heroHeadline">
+                        <span class="text-reveal-wrapper">
+                            <span class="text-reveal-content">A caneta</span>
+                        </span>
+                        <span class="text-reveal-wrapper">
+                            <span class="text-reveal-content delay-200 text-outline">mais tecnológica</span>
+                        </span>
+                        <span class="text-reveal-wrapper">
+                            <span class="text-reveal-content delay-300">do mundo.</span>
+                        </span>
+                    </h1>
+
+                    <!-- Texto de Apoio Exato da Referência -->
+                    <p class="text-sm sm:text-base md:text-lg text-stone-600 max-w-lg leading-relaxed font-normal mb-8 text-balance"
+                        id="heroDescription">
+                        A Artools Precision Pen redefine o equilíbrio entre peso, fluxo e design. Feita para criadores que exigem perfeição em cada traço.
+                    </p>
+
+                    <!-- Botões de Ação no Padrão do Design System (Quadrados) -->
+                    <div class="flex flex-wrap items-center gap-3.5" id="ctaGroup">
+                        <a href="#buy" id="btnHeroBuy"
+                            class="bg-stone-900 text-white px-7 py-3 rounded-none font-mono text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-stone-800 transition-all cursor-pointer shadow-none">
+                            <span>Comprar Agora</span>
+                        </a>
+
+                        <a href="#architectureSection" id="btnHeroExplore"
+                            class="bg-white/90 border border-stone-300 text-stone-900 px-7 py-3 rounded-none font-mono text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-white hover:border-stone-400 transition-all cursor-pointer shadow-none">
+                            <span>Explorar ↓</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Indicador Lateral 01 (Lado Direito da Tela como na referência) -->
+            <div class="hidden md:flex absolute right-8 lg:right-12 top-1/2 -translate-y-1/2 flex-col items-center gap-3 font-mono text-[11px] text-stone-400 pointer-events-none z-30">
+                <span class="font-medium text-stone-600">01</span>
+                <div class="w-px h-12 bg-stone-300"></div>
+            </div>
+
+            <!-- Indicador Inferior Central (Referência: SCROLL TO CONTROL) -->
+            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-auto z-30"
+                id="scrollHint">
+                <span class="font-mono text-[10px] tracking-[0.25em] uppercase text-stone-400">SCROLL TO CONTROL</span>
+                <div class="w-px h-6 bg-stone-300 relative overflow-hidden">
+                    <div class="w-full h-full bg-stone-900 animate-scroll-line"></div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- ==========================================================================
+       MARQUEE TÉCNICO CONTÍNUO (AURA DESIGN SYSTEM)
+       ========================================================================== -->
+    <div class="relative w-full border-y border-stone-300/80 bg-stone-200/60 py-3 overflow-hidden z-20">
+        <div
+            class="animate-marquee whitespace-nowrap flex items-center gap-12 font-mono text-xs uppercase tracking-[0.22em] text-stone-600">
+            <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-stone-900"></span> CALIBRE
+                NOMINAL 0.1 MM</span>
+            <span class="text-stone-400">/</span>
+            <span>USINAGEM SUÍÇA 5-EIXOS (TOLERÂNCIA ±0.002 MM)</span>
+            <span class="text-stone-400">/</span>
+            <span>MICROESFERA CARBETO DE TUNGSTÊNIO 9.5 MOHS</span>
+            <span class="text-stone-400">/</span>
+            <span>NANO-PIGMENTO CARBON BLACK FÓSSIL</span>
+            <span class="text-stone-400">/</span>
+            <span>SECAGEM INSTANTÂNEA 0.8S ANTI-BORRÃO</span>
+            <span class="text-stone-400">/</span>
+            <span>100 ANOS DE ESTABILIDADE ARQUIVÍSTICA ISO 14145-2</span>
+            <span class="text-stone-400">/</span>
+            <span>CHASSI MONOBLOCO 11.8G EM POLÍMERO AEROESPACIAL</span>
+            <span class="text-stone-400">/</span>
+            <span>CENTRO DE GRAVIDADE BARICÊNTRICO ZERO-FADIGA</span>
+            <span class="text-stone-400">/</span>
+            <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-stone-900"></span> CALIBRE
+                NOMINAL 0.1 MM</span>
+            <span class="text-stone-400">/</span>
+            <span>USINAGEM SUÍÇA 5-EIXOS (TOLERÂNCIA ±0.002 MM)</span>
+            <span class="text-stone-400">/</span>
+            <span>MICROESFERA CARBETO DE TUNGSTÊNIO 9.5 MOHS</span>
+            <span class="text-stone-400">/</span>
+            <span>NANO-PIGMENTO CARBON BLACK FÓSSIL</span>
+            <span class="text-stone-400">/</span>
+            <span>SECAGEM INSTANTÂNEA 0.8S ANTI-BORRÃO</span>
+            <span class="text-stone-400">/</span>
+            <span>100 ANOS DE ESTABILIDADE ARQUIVÍSTICA ISO 14145-2</span>
+            <span class="text-stone-400">/</span>
+            <span>CHASSI MONOBLOCO 11.8G EM POLÍMERO AEROESPACIAL</span>
+            <span class="text-stone-400">/</span>
+            <span>CENTRO DE GRAVIDADE BARICÊNTRICO ZERO-FADIGA</span>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       SEÇÃO 02: ARQUITETURA MECATRÔNICA & ENGENHARIA DE MATERIAIS
+       (Dobra 02: Centralizada // Fundo escuro idêntico ao card #141416)
+       ========================================================================== -->
+    <section id="architectureSection"
+        class="relative z-20 w-full bg-[#141416] text-white border-b border-stone-800 py-8 md:py-12 px-6 md:px-12 overflow-hidden"
+        style="background-color: #141416;"
+        aria-label="Engenharia e Arquitetura do Produto">
+
+        <!-- Architectural Grid Lines (Aura Design System - Dark Mode) -->
+        <div class="max-w-[1440px] mx-auto pointer-events-none absolute inset-0 z-0 grid grid-cols-1 md:grid-cols-12 gap-0 h-full w-full opacity-20"
+            aria-hidden="true">
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/5 h-full"></div>
+        </div>
+
+        <!-- Marca d'Água Tipográfica Arquitetônica Gigante (Aura DS) -->
+        <div
+            class="absolute -bottom-8 left-0 w-full overflow-hidden pointer-events-none select-none opacity-[0.03] leading-none text-[16vw] font-display font-black text-white whitespace-nowrap z-0">
+            PRECISION // 0.1MM
+        </div>
+
+        <!-- Floating Ambient Luminous Orbs com Animação Fluida -->
+        <div
+            class="absolute top-[15%] right-[-5%] w-[450px] h-[450px] bg-gradient-to-br from-white/10 to-stone-500/10 rounded-full blur-3xl pointer-events-none opacity-40 animate-float">
+        </div>
+        <div class="absolute bottom-[5%] left-[-5%] w-[400px] h-[400px] bg-gradient-to-tr from-emerald-500/10 to-transparent rounded-full blur-3xl pointer-events-none opacity-30 animate-float"
+            style="animation-delay: -3s;"></div>
+
+        <div class="max-w-[1440px] mx-auto relative z-10 flex flex-col items-center">
+
+            <!-- Cabeçalho Editorial Centralizado da Dobra 02 -->
+            <div class="mb-6 md:mb-8 max-w-3xl mx-auto text-center flex flex-col items-center arch-header-reveal">
+                <!-- Eyebrow Pill Dark -->
+                <div
+                    class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/15 bg-white/10 backdrop-blur-md mb-4 shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-stone-300 font-medium">ENGENHARIA
+                        MECATRÔNICA // CALIBRAÇÃO SUÍÇA</span>
+                </div>
+
+                <!-- Headline Impactante Centralizada -->
+                <h2
+                    class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-white leading-[0.98] mb-4">
+                    Arquitetura de Precisão
+                </h2>
+
+                <!-- Subtitle Centralizado -->
+                <p class="font-sans text-sm md:text-base text-stone-400 leading-relaxed font-light text-balance text-center max-w-2xl">
+                    Tolerância micrométrica de nível aeroespacial, calibração suíça de cinco eixos e pigmentação
+                    molecular permanente. Cada componente da ARTOOLS Pigmentum foi usinado para eliminar todo atrito
+                    entre o pensamento criativo e a fibra do papel.
+                </p>
+            </div>
+
+            <!-- Showcase Visual Dark Centralizado com Nós Interativos -->
+            <div class="w-full max-w-4xl lg:max-w-5xl mx-auto mb-0 arch-visual-card-wrap">
+                <div class="relative w-full rounded-3xl bg-[#141416] border border-white/15 shadow-2xl p-5 md:p-6 overflow-hidden group"
+                    id="schematicCard">
+
+                        <!-- Grid Técnico de Fundo / Blueprint Sutil -->
+                        <div class="absolute inset-0 bg-grid opacity-15 pointer-events-none"
+                            style="background-size: 28px 28px; background-image: linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px);">
+                        </div>
+
+                        <!-- Glows Atmosféricos Sutis -->
+                        <div
+                            class="absolute top-1/4 left-1/4 w-72 h-72 bg-stone-500/10 rounded-full blur-3xl pointer-events-none animate-pulse">
+                        </div>
+                        <div
+                            class="absolute -bottom-8 -right-8 w-60 h-60 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none">
+                        </div>
+
+                        <!-- Barra Superior do Card: Status de Telemetria + Seletor de Vistas do Produto -->
+                        <div
+                            class="flex flex-wrap items-center justify-between border-b border-white/10 pb-3 mb-4 relative z-10 gap-3 font-mono text-[11px] uppercase tracking-widest text-stone-400">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                <span class="text-stone-200">SISTEMA ATIVO // TOLERÂNCIA 0.1 MM</span>
+                            </div>
+
+                            <!-- Seletor Interativo de Vistas -->
+                            <div class="flex items-center gap-1 p-1 bg-white/5 rounded-lg border border-white/10"
+                                id="viewTabsGroup">
+                                <button type="button"
+                                    class="view-tab-btn active px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider text-white bg-stone-800 transition-all cursor-pointer"
+                                    data-img="/assets/images/pen_architecture_dark.jpg" data-mode="studio">01 • Estúdio</button>
+                                <button type="button"
+                                    class="view-tab-btn px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider text-stone-400 hover:text-white transition-all cursor-pointer"
+                                    data-img="/assets/images/pen_architecture_uncapped.jpg" data-mode="tip">02 • Ponta
+                                    0.1mm</button>
+                                <button type="button"
+                                    class="view-tab-btn px-2.5 py-1 rounded-md text-[10px] font-mono uppercase tracking-wider text-stone-400 hover:text-white transition-all cursor-pointer"
+                                    data-img="/assets/images/pen_real_photo.jpg" data-mode="real">03 • Foto Real</button>
+                            </div>
+                        </div>
+
+                        <!-- Palco Principal: Foto de Produto + HUD com Nós Conectados -->
+                        <div class="relative w-full aspect-[16/11] rounded-2xl overflow-hidden bg-stone-950 flex items-center justify-center border border-white/10 shadow-inner"
+                            id="schematicStage">
+
+                            <!-- Imagem Comercial Luxury da Caneta com Transição Suave -->
+                            <img src="/assets/images/pen_architecture_dark.jpg"
+                                alt="ARTOOLS Pigmentum 0.1 em corte mecatrônico de precisão"
+                                class="absolute inset-0 w-full h-full object-cover object-center scale-100 transition-all duration-700 ease-out group-hover:scale-105 opacity-90"
+                                id="schematicPenImg" />
+
+                            <!-- Vinhetas Gradientes de Integração Dark -->
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-[#141416] via-transparent to-[#141416]/40 pointer-events-none">
+                            </div>
+                            <div
+                                class="absolute inset-0 bg-gradient-to-r from-[#141416]/60 via-transparent to-[#141416]/60 pointer-events-none">
+                            </div>
+
+                            <!-- SVG de Conexão Neural / Linhas de Circuito entre Nós -->
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 600 450"
+                                preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="rgba(255,255,255,0.4)" />
+                                        <stop offset="100%" stop-color="rgba(255,255,255,0.05)" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Linha Centro -> Nó 01 (Ponta de Tungstênio) -->
+                                <line x1="300" y1="225" x2="130" y2="100" stroke="url(#lineGrad)" stroke-width="1.5"
+                                    stroke-dasharray="4,4" class="circuit-line" />
+                                <!-- Linha Centro -> Nó 02 (Válvula Isométrica) -->
+                                <line x1="300" y1="225" x2="470" y2="110" stroke="url(#lineGrad)" stroke-width="1.5"
+                                    stroke-dasharray="4,4" class="circuit-line" />
+                                <!-- Linha Centro -> Nó 03 (Nano-Pigmento) -->
+                                <line x1="300" y1="225" x2="470" y2="350" stroke="url(#lineGrad)" stroke-width="1.5"
+                                    stroke-dasharray="4,4" class="circuit-line" />
+                                <!-- Linha Centro -> Nó 04 (Chassi Aeroespacial) -->
+                                <line x1="300" y1="225" x2="130" y2="340" stroke="url(#lineGrad)" stroke-width="1.5"
+                                    stroke-dasharray="4,4" class="circuit-line" />
+
+                                <!-- Anéis de Pulso no Centro -->
+                                <circle cx="300" cy="225" r="36" fill="none" stroke="rgba(255,255,255,0.2)"
+                                    stroke-width="1" class="animate-ping" style="animation-duration: 3s;" />
+                                <circle cx="300" cy="225" r="56" fill="none" stroke="rgba(255,255,255,0.08)"
+                                    stroke-width="1" />
+                            </svg>
+
+                            <!-- Hub Central: Núcleo de Engenharia -->
+                            <div
+                                class="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                                <div
+                                    class="w-12 h-12 rounded-full bg-stone-900/90 border border-white/30 backdrop-blur-md flex items-center justify-center text-white shadow-xl shadow-black/80 relative cursor-pointer group/hub transition-transform hover:scale-110">
+                                    <iconify-icon icon="solar:pen-bold-duotone"
+                                        class="text-xl text-white"></iconify-icon>
+                                    <span
+                                        class="absolute -bottom-1 -right-1 w-3 h-3 bg-emerald-400 border-2 border-stone-950 rounded-full animate-pulse"></span>
+                                </div>
+                            </div>
+
+                            <!-- Nó 01 (Top-Left): Microesfera Suíça -->
+                            <button type="button"
+                                class="node-btn absolute z-20 top-[14%] left-[6%] sm:left-[8%] p-2 rounded-xl bg-stone-900/85 border border-white/20 hover:border-white/70 backdrop-blur-md text-white flex items-center gap-2 text-xs font-mono transition-all hover:scale-105 group/node shadow-none cursor-pointer"
+                                data-id="1" data-name="MICROESFERA EM CARBETO DE TUNGSTÊNIO"
+                                data-spec="USINAGEM SUÍÇA 5-EIXOS // TOLERÂNCIA ±0.002 MM">
+                                <span
+                                    class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-xs group-hover/node:bg-white/20 transition-colors">
+                                    <iconify-icon icon="solar:target-bold-duotone"></iconify-icon>
+                                </span>
+                                <span class="font-sans font-medium text-[10px] sm:text-[11px] text-stone-200">Ponta 0.1
+                                    mm</span>
+                            </button>
+
+                            <!-- Nó 02 (Top-Right): Válvula Isométrica -->
+                            <button type="button"
+                                class="node-btn absolute z-20 top-[16%] right-[6%] sm:right-[8%] p-2 rounded-xl bg-stone-900/85 border border-white/20 hover:border-white/70 backdrop-blur-md text-white flex items-center gap-2 text-xs font-mono transition-all hover:scale-105 group/node shadow-none cursor-pointer"
+                                data-id="2" data-name="REGULADOR ISOMÉTRICO DE VÁCUO"
+                                data-spec="FLUXO LAMINAR CONSTANTE ANTI-VAZAMENTO">
+                                <span
+                                    class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-xs group-hover/node:bg-white/20 transition-colors">
+                                    <iconify-icon icon="solar:tuning-square-2-bold-duotone"></iconify-icon>
+                                </span>
+                                <span class="font-sans font-medium text-[10px] sm:text-[11px] text-stone-200">Válvula
+                                    Isométrica</span>
+                            </button>
+
+                            <!-- Nó 03 (Bottom-Right): Nano-Pigmento -->
+                            <button type="button"
+                                class="node-btn absolute z-20 bottom-[16%] right-[6%] sm:right-[8%] p-2 rounded-xl bg-stone-900/85 border border-white/20 hover:border-white/70 backdrop-blur-md text-white flex items-center gap-2 text-xs font-mono transition-all hover:scale-105 group/node shadow-none cursor-pointer"
+                                data-id="2" data-name="FÓRMULA NANO-PIGMENTADA CARBON BLACK"
+                                data-spec="SECAGEM INSTANTÂNEA 0.8S // RESISTÊNCIA UV 100%">
+                                <span
+                                    class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-xs group-hover/node:bg-white/20 transition-colors">
+                                    <iconify-icon icon="solar:drop-bold-duotone"></iconify-icon>
+                                </span>
+                                <span
+                                    class="font-sans font-medium text-[10px] sm:text-[11px] text-stone-200">Nano-Pigmento</span>
+                            </button>
+
+                            <!-- Nó 04 (Bottom-Left): Chassi Aeroespacial -->
+                            <button type="button"
+                                class="node-btn absolute z-20 bottom-[18%] left-[6%] sm:left-[8%] p-2 rounded-xl bg-stone-900/85 border border-white/20 hover:border-white/70 backdrop-blur-md text-white flex items-center gap-2 text-xs font-mono transition-all hover:scale-105 group/node shadow-none cursor-pointer"
+                                data-id="3" data-name="CHASSI POLIMÉRICO MONOBLOCO 11.8G"
+                                data-spec="CENTRO DE GRAVIDADE BARICÊNTRICO // ZERO FADIGA">
+                                <span
+                                    class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-xs group-hover/node:bg-white/20 transition-colors">
+                                    <iconify-icon icon="solar:shield-check-bold-duotone"></iconify-icon>
+                                </span>
+                                <span class="font-sans font-medium text-[10px] sm:text-[11px] text-stone-200">Chassi
+                                    11.8g</span>
+                            </button>
+
+                        </div>
+
+                        <!-- Rodapé Interativo de Telemetria Dinâmica -->
+                        <div
+                            class="mt-3 pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+                            <div class="flex items-center gap-2.5 text-stone-400">
+                                <span class="text-stone-200 font-semibold" id="telemetryName">MICROESFERA SUÍÇA 0.1
+                                    MM</span>
+                                <span class="text-stone-600">|</span>
+                                <span class="text-emerald-400" id="telemetrySpec">TOLERÂNCIA DE GRAU SUÍÇO: ±0.002
+                                    MM</span>
+                            </div>
+                            <div class="text-[10px] text-stone-500 uppercase tracking-widest flex items-center gap-1.5">
+                                <iconify-icon icon="solar:cursor-linear" class="text-xs"></iconify-icon>
+                                <span>Passe o cursor sobre os nós</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            <!-- Banner CTA Elegante com Botão Beam (Dark Mode // Centralizado e Compacto) -->
+            <div
+                class="arch-cta-banner mt-5 p-4 sm:p-5 border border-white/10 rounded-2xl bg-white/[0.02] backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 w-full max-w-4xl lg:max-w-5xl mx-auto shadow-sm">
+                <div>
+                    <div
+                        class="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-stone-400 mb-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        DISPONIBILIDADE IMEDIATA // SÉRIE LIMITADA 2026
+                    </div>
+                    <h4 class="font-display text-lg sm:text-xl font-bold text-white">Experimente o traço que
+                        redefine a precisão.</h4>
+                </div>
+                <Button rounded="rounded-none" variant="beam"
+                    onclick="document.getElementById('btnHeroBuy').click()"
+                    icon="solar:arrow-right-linear"
+                    iconPosition="right"
+                >
+                    ADQUIRIR SÉRIE 01
+                </Button>
+            </div>
+
+            <!-- Linha de Transição Luminosa Sutil para Dobra 03 -->
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-white/15 to-transparent mt-6 pointer-events-none"
+                aria-hidden="true"></div>
+
+        </div>
+    </section>
+    <!-- ==========================================================================
+       SEÇÃO 03: LABORATÓRIO DE PRECISÃO & EXPERIÊNCIA DO TRAÇO
+       (Dobra 3: Test Pad Interativo 0.1mm + Microscopia Óptica 500x + Bento de Aplicações)
+       ========================================================================== -->
+    <section id="laboratorySection"
+        class="relative z-20 w-full bg-[#EAEAE5] border-b border-stone-300 py-6 md:py-8 px-6 md:px-12 overflow-hidden"
+        aria-label="Laboratório de Teste e Aplicações">
+
+        <!-- Architectural Grid Lines (Aura Design System) -->
+        <div class="max-w-[1440px] mx-auto pointer-events-none absolute inset-0 z-0 grid grid-cols-1 md:grid-cols-12 gap-0 h-full w-full opacity-35"
+            aria-hidden="true">
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        </div>
+
+        <!-- Marca d'Água Arquitetônica Dobra 03 -->
+        <div
+            class="absolute -top-8 right-0 w-full overflow-hidden pointer-events-none select-none opacity-[0.03] leading-none text-[15vw] font-display font-black text-right text-stone-900 whitespace-nowrap z-0">
+            TEST LAB // 500X
+        </div>
+
+        <!-- Floating Ambient Luminous Orbs com Animação Fluida -->
+        <div class="absolute top-[30%] left-[-8%] w-[420px] h-[420px] bg-gradient-to-tr from-white to-stone-300/30 rounded-full blur-3xl pointer-events-none opacity-50 animate-float"
+            style="animation-delay: -1.5s;"></div>
+
+        <div class="max-w-[1440px] mx-auto relative z-10">
+
+            <!-- Cabeçalho Editorial da Dobra 03 (Compacto) -->
+            <div class="mb-4 sm:mb-5 max-w-3xl lab-header-reveal">
+                <!-- Eyebrow Pill -->
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full border border-stone-300/80 bg-white/70 backdrop-blur-xs mb-2 shadow-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-stone-900 animate-pulse"></span>
+                    <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-stone-600 font-medium">03 •
+                        LABORATÓRIO DE PRECISÃO // EXPERIÊNCIA DO TRAÇO</span>
+                </div>
+
+                <!-- Headline -->
+                <h2
+                    class="font-display text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter text-stone-900 leading-[0.98] mb-2">
+                    Onde a Física Encontra o Papel.
+                </h2>
+
+                <!-- Subtitle -->
+                <p class="font-sans text-xs sm:text-sm text-stone-600 leading-relaxed font-light text-balance">
+                    Um traço de 0.1 mm não é apenas uma dimensão matemática — é a ausência de hesitação. Experimente o
+                    comportamento molecular da deposição de tinta em nosso pad interativo e analise os padrões de calibração.
+                </p>
+            </div>
+
+            <!-- Grid Principal Compacto: Test Pad Interativo (Esquerda) + Cards Técnicos Norma ISO (Direita) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch mb-4">
+
+                <!-- Coluna Esquerda: O Pad de Teste Interativo 0.1mm -->
+                <div class="lg:col-span-7 flex flex-col">
+                    <div class="relative w-full h-full rounded-2xl bg-white border border-stone-300 shadow-lg overflow-hidden p-4 flex flex-col justify-between group"
+                        id="drawingLabCard">
+
+                        <!-- Barra de Ferramentas do Pad -->
+                        <div
+                            class="flex flex-wrap items-center justify-between pb-2.5 mb-2.5 border-b border-stone-200 gap-2">
+                            <div
+                                class="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-stone-700">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                                <span class="font-semibold text-stone-900">PAD DE CALIBRAÇÃO 0.1 MM</span>
+                                <span class="text-stone-300">|</span>
+                                <span class="text-stone-500 hidden sm:inline">DESENHE LIVREMENTE</span>
+                            </div>
+
+                            <!-- Botões de Ação Rápida -->
+                            <div class="flex items-center gap-1.5">
+                                <Button rounded="rounded-none" variant="tool"
+                                    id="presetCubeBtn"
+                                    icon="solar:box-bold-duotone"
+                                    title="Desenhar Cubo Isométrico 3D com precisão 0.1mm"
+                                >
+                                    Cubo 3D
+                                </Button>
+                                <Button rounded="rounded-none" variant="tool"
+                                    id="presetHatchBtn"
+                                    icon="solar:ruler-angular-bold-duotone"
+                                    title="Gerar hachura arquitetônica a 45°"
+                                >
+                                    Hachura 45°
+                                </Button>
+                                <Button rounded="rounded-none" variant="tool"
+                                    id="clearDrawBtn"
+                                    icon="solar:trash-bin-trash-bold-duotone"
+                                    title="Limpar área de desenho"
+                                >
+                                    Limpar
+                                </Button>
+                            </div>
+                        </div>
+
+                        <!-- Área de Desenho Canvas Interativo Compacto & Ergonômico -->
+                        <div class="relative w-full h-[190px] sm:h-[210px] md:h-[220px] bg-[#FAF8F5] rounded-xl border border-stone-200 overflow-hidden cursor-crosshair shadow-inner"
+                            id="canvasWrapper">
+
+                            <!-- Grid de papel milimetrado sutil -->
+                            <div class="absolute inset-0 pointer-events-none opacity-30 bg-grid"
+                                style="background-size: 20px 20px;"></div>
+
+                            <!-- Canvas de Desenho Vetorial -->
+                            <canvas id="drawCanvas" class="absolute inset-0 w-full h-full touch-none"></canvas>
+
+                            <!-- Hint de Interação Inicial -->
+                            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 text-stone-400 gap-2"
+                                id="drawCanvasHint">
+                                <iconify-icon icon="solar:pen-new-square-linear"
+                                    class="text-2xl animate-bounce"></iconify-icon>
+                                <span class="font-mono text-xs uppercase tracking-widest">Arraste para testar o traço de
+                                    0.1 mm</span>
+                            </div>
+                        </div>
+
+                        <!-- Telemetria do Traço em Tempo Real -->
+                        <div
+                            class="mt-2.5 pt-2.5 border-t border-stone-200 flex flex-wrap items-center justify-between gap-3 font-mono text-xs text-stone-600">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-stone-400">Comprimento do traço:</span>
+                                <span class="font-bold text-stone-900" id="strokeLengthMetric">0.0 mm</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-[10px] sm:text-[11px] text-stone-500">
+                                <span class="flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-stone-900"></span> Calibre: <strong>0.100
+                                        mm</strong>
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-stone-900"></span> Secagem:
+                                    <strong>0.8s</strong>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Coluna Direita: Cards Técnicos Padronizados no Estilo Norma ISO (Ao lado do Pad) -->
+                <div class="lg:col-span-5 flex flex-col justify-between gap-2.5">
+
+                    <!-- Card 01: Norma ISO 14145-2 -->
+                    <div
+                        class="lab-spec-card p-3 sm:p-3.5 rounded-2xl border border-stone-300/80 bg-white/70 backdrop-blur-xs flex items-center justify-between shadow-xs hover:border-stone-400 hover:bg-white transition-all">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-9 h-9 rounded-xl bg-stone-900 text-white flex items-center justify-center text-base shrink-0">
+                                <iconify-icon icon="solar:shield-check-bold-duotone"></iconify-icon>
+                            </div>
+                            <div>
+                                <h4 class="font-display text-xs sm:text-sm font-bold text-stone-900">Norma ISO 14145-2
+                                </h4>
+                                <p class="text-[11px] text-stone-500 font-light">Tinta arquivística inalterável sob luz
+                                    solar direta e umidade.</p>
+                            </div>
+                        </div>
+                        <span
+                            class="font-mono text-[10px] sm:text-[11px] font-bold text-stone-900 bg-stone-200/80 px-2 py-1 rounded shrink-0">100+
+                            ANOS</span>
+                    </div>
+
+                    <!-- Card 02: Microscopia Óptica 500x -->
+                    <div
+                        class="lab-spec-card p-3 sm:p-3.5 rounded-2xl border border-stone-300/80 bg-white/70 backdrop-blur-xs flex items-center justify-between shadow-xs hover:border-stone-400 hover:bg-white transition-all">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-9 h-9 rounded-xl bg-stone-900 text-white flex items-center justify-center text-base shrink-0">
+                                <iconify-icon icon="solar:microscope-bold-duotone"></iconify-icon>
+                            </div>
+                            <div>
+                                <h4 class="font-display text-xs sm:text-sm font-bold text-stone-900">Microscopia Óptica 500x
+                                </h4>
+                                <p class="text-[11px] text-stone-500 font-light">Aresta cirúrgica retilínea sem vazamento entre fibras.</p>
+                            </div>
+                        </div>
+                        <span
+                            class="font-mono text-[10px] sm:text-[11px] font-bold text-stone-900 bg-stone-200/80 px-2 py-1 rounded shrink-0">0%
+                            DISPERSÃO</span>
+                    </div>
+
+                    <!-- Card 03: Secagem Molecular 0.8s -->
+                    <div
+                        class="lab-spec-card p-3 sm:p-3.5 rounded-2xl border border-stone-300/80 bg-white/70 backdrop-blur-xs flex items-center justify-between shadow-xs hover:border-stone-400 hover:bg-white transition-all">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-9 h-9 rounded-xl bg-stone-900 text-white flex items-center justify-center text-base shrink-0">
+                                <iconify-icon icon="solar:stopwatch-bold-duotone"></iconify-icon>
+                            </div>
+                            <div>
+                                <h4 class="font-display text-xs sm:text-sm font-bold text-stone-900">Secagem Molecular 0.8s
+                                </h4>
+                                <p class="text-[11px] text-stone-500 font-light">Suspensão pura de Carbon Black: secagem sem borrões.</p>
+                            </div>
+                        </div>
+                        <span
+                            class="font-mono text-[10px] sm:text-[11px] font-bold text-stone-900 bg-stone-200/80 px-2 py-1 rounded shrink-0">0.8S
+                            ULTRA</span>
+                    </div>
+
+                    <!-- Card 04: Usinagem Suíça de Tolerância -->
+                    <div
+                        class="lab-spec-card p-3 sm:p-3.5 rounded-2xl border border-stone-300/80 bg-white/70 backdrop-blur-xs flex items-center justify-between shadow-xs hover:border-stone-400 hover:bg-white transition-all">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-9 h-9 rounded-xl bg-stone-900 text-white flex items-center justify-center text-base shrink-0">
+                                <iconify-icon icon="solar:target-bold-duotone"></iconify-icon>
+                            </div>
+                            <div>
+                                <h4 class="font-display text-xs sm:text-sm font-bold text-stone-900">Usinagem Suíça 5-Eixos
+                                </h4>
+                                <p class="text-[11px] text-stone-500 font-light">Microesfera em carbeto de tungstênio com traço invariável 0.1 mm.</p>
+                            </div>
+                        </div>
+                        <span
+                            class="font-mono text-[10px] sm:text-[11px] font-bold text-stone-900 bg-stone-200/80 px-2 py-1 rounded shrink-0">±0.002
+                            MM</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Rodapé de Garantia & Certificação Internacional Compacto -->
+            <div
+                class="pt-3 border-t border-stone-300/80 flex flex-wrap items-center justify-between gap-3 font-mono text-xs text-stone-500">
+                <div class="flex flex-wrap items-center gap-4 text-[11px]">
+                    <span class="flex items-center gap-1.5"><iconify-icon icon="solar:check-circle-bold"
+                            class="text-emerald-600"></iconify-icon> ISO 14145-2 CERTIFIED</span>
+                    <span class="flex items-center gap-1.5"><iconify-icon icon="solar:check-circle-bold"
+                            class="text-emerald-600"></iconify-icon> ACID-FREE // PH NEUTRO</span>
+                    <span class="flex items-center gap-1.5"><iconify-icon icon="solar:check-circle-bold"
+                            class="text-emerald-600"></iconify-icon> SWISS USINAGE STANDARDS</span>
+                </div>
+                <div class="text-[10px] uppercase tracking-widest text-stone-400">
+                    ARTOOLS LAB © 2026 // PIGMENTUM SERIES
+                </div>
+            </div>
+
+            <!-- Linha de Transição Luminosa Sutil para Dobra 04 (Dark) -->
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-stone-400/50 to-transparent mt-4 pointer-events-none"
+                aria-hidden="true"></div>
+
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+       SEÇÃO 04: O CUME DA MECATRÔNICA // CINEMATIC VIDEO & GLOW HIGHLIGHT BOX
+       (Dobra 4: Vídeo no Fundo + Box com Efeito de Glow / Border Flow do Gemini)
+       ========================================================================== -->
+    <section id="cinematicGlowSection"
+        class="relative z-20 w-full bg-[#0A0A0D] text-white py-10 md:py-14 px-6 md:px-12 overflow-hidden border-b border-stone-800"
+        aria-label="Apresentação Cinematográfica e Destaque Mecatrônico">
+
+        <!-- Vídeo de Fundo Contínuo (video2.mp4) com Máscara e Blend Cinematográfico -->
+        <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+            <video autoplay loop muted playsinline webkit-playsinline
+                class="absolute inset-0 w-full h-full object-cover object-center opacity-30 scale-105"
+                src="/assets/videos/video2.mp4">
+                <source src="/assets/videos/video2.mp4" type="video/mp4">
+                <source src="/assets/raw_files/video2.mp4" type="video/mp4">
+                <source src="/video2.mp4" type="video/mp4">
+            </video>
+
+            <!-- Gradientes de Fusão Superior e Inferior para Integração Perfeita -->
+            <div
+                class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-[#EAEAE5] via-[#0A0A0D]/70 to-transparent">
+            </div>
+            <div class="absolute inset-0 bg-radial-vignette opacity-85"
+                style="background: radial-gradient(ellipse at center, rgba(10,10,13,0.3) 0%, rgba(10,10,13,0.85) 65%, #0A0A0D 100%);">
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#0A0A0D] to-transparent"></div>
+        </div>
+
+        <!-- Linhas de Grid Arquitetônico Dark (Design System) -->
+        <div class="max-w-[1440px] mx-auto pointer-events-none absolute inset-0 z-0 grid grid-cols-1 md:grid-cols-12 gap-0 h-full w-full opacity-20"
+            aria-hidden="true">
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+            <div class="hidden md:block md:col-span-1 border-r border-white/10 h-full"></div>
+        </div>
+
+        <!-- Marca d'Água Monumental de Fundo -->
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center overflow-hidden pointer-events-none select-none opacity-[0.035] leading-none text-[18vw] font-display font-black text-white whitespace-nowrap z-0">
+            TUNGSTEN // 0.1
+        </div>
+
+        <div class="max-w-[1440px] mx-auto relative z-10 flex flex-col items-center">
+
+            <!-- Cabeçalho da Dobra 04 -->
+            <div class="text-center max-w-3xl mb-6 md:mb-8 cinematic-header-reveal">
+                <!-- Eyebrow Pill Dark -->
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/15 bg-white/5 backdrop-blur-md mb-3 shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-[11px] font-mono uppercase tracking-[0.22em] text-neutral-300 font-medium">04 •
+                        DESTAQUE DE ENGENHARIA // GRAU AEROESPACIAL</span>
+                </div>
+
+                <!-- Headline -->
+                <h2
+                    class="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-white leading-[0.98] mb-3">
+                    O Ponto do Toque Absoluto.
+                </h2>
+
+                <!-- Subtitle -->
+                <p class="font-sans text-sm md:text-base text-neutral-400 leading-relaxed font-light text-balance">
+                    Quando o papel recebe a ARTOOLS Pigmentum, cada elemento mecânico entra em ressonância. A
+                    microesfera em carbeto de tungstênio opera com rotação omnidirecional sob pressão nula.
+                </p>
+            </div>
+
+            <!-- Card Destaque de Engenharia / O Ponto do Toque Absoluto (Componente Astro) -->
+            <AbsoluteTouchCard />
+
+            <!-- 3 Mini Cards de Apoio com Efeito de Borda em Gradiente (Gemini Style) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4 mt-6 w-full max-w-4xl">
+
+                <div class="p-4 sm:p-4.5 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-white/30 transition-all group"
+                    style="position: relative; --border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)); --border-radius-before: 16px;">
+                    <iconify-icon icon="solar:tuning-square-2-bold-duotone"
+                        class="text-xl text-neutral-400 mb-2 group-hover:text-white transition-colors"></iconify-icon>
+                    <h4 class="font-display text-sm sm:text-base font-bold text-white mb-1">Pressão de Contato Neutra
+                    </h4>
+                    <p class="text-[11px] sm:text-xs text-neutral-400 font-light leading-relaxed">
+                        A gravidade e a tensão superficial fazem o fluxo descer sem necessitar força mecânica da mão.
+                    </p>
+                </div>
+
+                <div class="p-4 sm:p-4.5 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-white/30 transition-all group"
+                    style="position: relative; --border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)); --border-radius-before: 16px;">
+                    <iconify-icon icon="solar:shield-check-bold-duotone"
+                        class="text-xl text-neutral-400 mb-2 group-hover:text-white transition-colors"></iconify-icon>
+                    <h4 class="font-display text-sm sm:text-base font-bold text-white mb-1">Válvula Isométrica 48h</h4>
+                    <p class="text-[11px] sm:text-xs text-neutral-400 font-light leading-relaxed">
+                        Mesmo deixada destampada durante sessões intensas de trabalho, a ponta não resseca nem entope.
+                    </p>
+                </div>
+
+                <div class="p-4 sm:p-4.5 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-white/30 transition-all group"
+                    style="position: relative; --border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)); --border-radius-before: 16px;">
+                    <iconify-icon icon="solar:box-minimalistic-bold-duotone"
+                        class="text-xl text-neutral-400 mb-2 group-hover:text-white transition-colors"></iconify-icon>
+                    <h4 class="font-display text-sm sm:text-base font-bold text-white mb-1">Estojo de Alumínio Usinado
+                    </h4>
+                    <p class="text-[11px] sm:text-xs text-neutral-400 font-light leading-relaxed">
+                        Acompanha estojo magnético monobloco com berço aveludado e certificado de aferição.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NOVA DOBRA: MARQUEE INFINITO (100% PRETO // FONTE CURSIVA) -->
+    <MarqueeSection />
+
+    <!-- NOVA DOBRA: VÍDEO FIXADO (SEM OVERLAY // ALTURA 70% MAIOR QUE O MARQUEE) -->
+    <WritingVideoSection />
+
+    <!-- NOVA DOBRA: TABELA DE ESPECIFICAÇÕES TÉCNICAS (100% PRETO // FONTE EDITORIAL ITÁLICA) -->
+    <TechSpecsSection />
+
+    <!-- Modal para Destino de Compra não configurado -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+        id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="bg-white border border-stone-300 rounded-lg p-8 max-w-md w-full shadow-2xl transform translate-y-4 transition-transform duration-300"
+            id="modalBox">
+            <div class="flex justify-between items-center mb-4">
+                <span
+                    class="font-mono text-xs uppercase tracking-widest text-stone-500 bg-stone-100 px-2 py-0.5 rounded">Configuração
+                    Pendente</span>
+                <Button rounded="rounded-none" variant="ghost"
+                    id="modalCloseBtn"
+                    icon="solar:close-circle-linear"
+                    aria-label="Fechar janela"
+                />
+            </div>
+            <h3 class="font-display text-xl font-semibold text-stone-900 mb-2" id="modalTitle">Destino de Compra não
+                configurado</h3>
+            <p class="font-sans text-sm text-stone-600 leading-relaxed mb-6">
+                Conforme as regras do projeto, nenhum destino fictício de checkout foi simulado. Para ativar a compra
+                direta, configure a propriedade <strong>buyUrl</strong> no objeto de configuração no início do script:
+                <code
+                    class="block mt-2 p-3 bg-stone-100 border border-stone-200 rounded font-mono text-xs text-stone-900">CONFIG.buyUrl = "https://sua-loja.com.br/checkout";</code>
+            </p>
+            <div class="flex justify-end">
+                <Button rounded="rounded-none" id="modalOkBtn"
+                    size="sm"
+                >
+                    Entendido
+                </Button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       JAVASCRIPT: CONTROLE MULTI-STACK DE SCRUBBING COM MOTION PRIMITIVES AURA
+       ========================================================================== -->
+    <script is:inline>
+        /**
+         * CONFIGURAÇÃO CENTRALIZADA DA EXPERIÊNCIA
+         */
+        const CONFIG = {
+            // Engine ativa padrão: 'video' (Vídeo nativo com exato modelo video2.mp4)
+            renderEngine: 'video',
+
+            // Vídeo MP4 com o modelo exato fornecido
+            videoSrc: '/assets/videos/video2.mp4',
+            videoFallbackSrc: '/assets/raw_files/video2.mp4',
+            videoRootFallback: '/video2.mp4',
+            seekThreshold: 0.02,
+
+            // Sequência de frames reais (modo alternativo)
+            frameCount: 192,
+            framePathPrefix: '/assets/video_frames/frame_',
+            frameExtension: '.jpg',
+
+            // Parâmetros de física e rolagem
+            scrubSmoothingVideo: 0.15,
+            scrubSmoothingCanvas: 0.1,
+            exploreTargetProgress: 0.65,
+
+            // URL para o checkout / página de compra
+            buyUrl: ""
+        };
+
+        // Função do efeito Flashlight do Design System
+        function updateFlashlight(e, card) {
+        window.updateFlashlight = updateFlashlight;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        }
+
+        /* ==========================================================================
+           STACK PRINCIPAL: NATIVE HTML5 VIDEO SCRUBBER ENGINE (PRECISÃO ABSOLUTA)
+           ========================================================================== */
+        class PrecisionVideoScrubber {
+            constructor(videoElement, options = {}) {
+                this.video = videoElement;
+                this.duration = 0;
+                this.targetProgress = 0;
+                this.currentProgress = 0;
+                this.isSeeking = false;
+                this.pendingTime = null;
+                this.isReady = false;
+                this.rafId = null;
+
+                this._init();
+            }
+
+            _init() {
+                this.video.muted = true;
+                this.video.playsInline = true;
+                this.video.setAttribute('webkit-playsinline', 'true');
+                this.video.setAttribute('playsinline', 'true');
+                this.video.preload = 'auto';
+
+                const onMeta = () => {
+                    if (this.video.duration && !isNaN(this.video.duration) && this.video.duration > 0) {
+                        this.duration = this.video.duration;
+                        this.isReady = true;
+                        // Força renderização do primeiro frame no carregamento
+                        try {
+                            this.video.currentTime = 0.01;
+                        } catch (e) { }
+                    }
+                };
+
+                if (this.video.readyState >= 1) {
+                    onMeta();
+                } else {
+                    this.video.addEventListener('loadedmetadata', onMeta, { once: true });
+                }
+
+                this.video.addEventListener('seeked', () => {
+                    this.isSeeking = false;
+                    if (this.pendingTime !== null) {
+                        const next = this.pendingTime;
+                        this.pendingTime = null;
+                        this._applySeek(next);
+                    }
+                });
+
+                this.video.addEventListener('seeking', () => {
+                    this.isSeeking = true;
+                });
+
+                // Inicia loop de renderização contínuo
+                this._loop = this._loop.bind(this);
+                this.rafId = requestAnimationFrame(this._loop);
+
+                // Garante que o vídeo seja carregado pelo navegador
+                try {
+                    this.video.load();
+                } catch (e) { }
+            }
+
+            setProgress(progress) {
+                this.targetProgress = Math.max(0, Math.min(1, progress));
+            }
+
+            _applySeek(time) {
+                if (this.isSeeking) {
+                    this.pendingTime = time;
+                    return;
+                }
+                this.isSeeking = true;
+                try {
+                    this.video.currentTime = time;
+                } catch (err) {
+                    this.isSeeking = false;
+                }
+            }
+
+            _loop() {
+                if (this.isReady && this.duration > 0) {
+                    const diff = this.targetProgress - this.currentProgress;
+                    if (Math.abs(diff) > 0.0001) {
+                        // Interpolação ultra-suave e cadenciada (lerp 0.08) para desacelerar o movimento tanto para baixo quanto para cima
+                        this.currentProgress += diff * 0.08;
+                        const targetTime = Math.max(0, Math.min(this.duration - 0.02, this.currentProgress * (this.duration - 0.02)));
+                        if (Math.abs(this.video.currentTime - targetTime) > 0.01) {
+                            this._applySeek(targetTime);
+                        }
+                    }
+                }
+                this.rafId = requestAnimationFrame(this._loop);
+            }
+
+            destroy() {
+                if (this.rafId) cancelAnimationFrame(this.rafId);
+            }
+        }
+
+        /* ==========================================================================
+           STACK SECUNDÁRIO: CANVAS IMAGE SEQUENCE ENGINE (FALLBACK / MODO ALTERNATIVO)
+           ========================================================================== */
+        class AppleStyleCanvasScrubber {
+            constructor(canvasElement, config) {
+                this.canvas = canvasElement;
+                this.ctx = canvasElement.getContext('2d', { alpha: false });
+                this.config = config;
+                this.frameCount = config.frameCount;
+                this.images = new Array(this.frameCount);
+                this.loadedCount = 0;
+                this.currentFrameIndex = 0;
+                this.isReady = false;
+
+                this._init();
+            }
+
+            _getFrameUrl(index) {
+                const numStr = (index + 1).toString().padStart(4, '0');
+                return `${this.config.framePathPrefix}${numStr}${this.config.frameExtension}`;
+            }
+
+            _init() {
+                for (let i = 0; i < this.frameCount; i++) {
+                    const img = new Image();
+                    img.src = this._getFrameUrl(i);
+                    img.onload = () => {
+                        this.images[i] = img;
+                        this.loadedCount++;
+                        if (!this.isReady && i === 0) {
+                            this.isReady = true;
+                            this.drawFrame(0);
+                        }
+                        if (i === this.currentFrameIndex) {
+                            this.drawFrame(i);
+                        }
+                    };
+                }
+            }
+
+            setNormalizedProgress(progress) {
+                const safeProgress = Math.max(0, Math.min(1, progress));
+                const targetIndex = Math.min(
+                    this.frameCount - 1,
+                    Math.floor(safeProgress * (this.frameCount - 1))
+                );
+                this.currentFrameIndex = targetIndex;
+                this.drawFrame(targetIndex);
+            }
+
+            drawFrame(index) {
+                let imgToDraw = this.images[index];
+                if (!imgToDraw || !imgToDraw.complete || imgToDraw.naturalWidth === 0) {
+                    for (let delta = 1; delta < this.frameCount; delta++) {
+                        if (index - delta >= 0 && this.images[index - delta] && this.images[index - delta].complete && this.images[index - delta].naturalWidth > 0) {
+                            imgToDraw = this.images[index - delta];
+                            break;
+                        }
+                        if (index + delta < this.frameCount && this.images[index + delta] && this.images[index + delta].complete && this.images[index + delta].naturalWidth > 0) {
+                            imgToDraw = this.images[index + delta];
+                            break;
+                        }
+                    }
+                }
+
+                if (!imgToDraw || !imgToDraw.complete || imgToDraw.naturalWidth === 0) return;
+
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                const cw = this.canvas.clientWidth || window.innerWidth;
+                const ch = this.canvas.clientHeight || window.innerHeight;
+
+                const targetW = Math.floor(cw * dpr);
+                const targetH = Math.floor(ch * dpr);
+
+                if (this.canvas.width !== targetW || this.canvas.height !== targetH) {
+                    this.canvas.width = targetW;
+                    this.canvas.height = targetH;
+                }
+
+                this.ctx.save();
+                this.ctx.scale(dpr, dpr);
+
+                const imgW = imgToDraw.naturalWidth || 1280;
+                const imgH = imgToDraw.naturalHeight || 720;
+                const imgAspect = imgW / imgH;
+                const canvasAspect = cw / ch;
+
+                let renderW, renderH, offsetX, offsetY;
+
+                if (canvasAspect > imgAspect) {
+                    renderW = cw;
+                    renderH = cw / imgAspect;
+                    offsetX = 0;
+                    offsetY = (ch - renderH) * 0.5;
+                } else {
+                    renderH = ch;
+                    renderW = ch * imgAspect;
+                    const focalX = window.innerWidth > 768 ? 0.60 : 0.5;
+                    offsetX = (cw - renderW) * focalX;
+                    offsetY = (ch - renderH) * 0.5;
+                }
+
+                this.ctx.drawImage(imgToDraw, offsetX, offsetY, renderW, renderH);
+                this.ctx.restore();
+            }
+
+            resize() {
+                this.drawFrame(this.currentFrameIndex);
+            }
+        }
+
+        /* ==========================================================================
+           ORQUESTRADOR GERAL
+           ========================================================================== */
+        document.addEventListener('DOMContentLoaded', () => {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            // Elementos DOM
+            const heroTrack = document.getElementById('heroTrack');
+            const heroCanvas = document.getElementById('heroCanvas');
+            const heroVideo = document.getElementById('heroVideo');
+            const heroLeftContent = document.getElementById('heroLeftContent');
+            const editorialRail = document.getElementById('editorialRail');
+            const heroBadge = document.getElementById('heroBadge');
+            const heroHeadline = document.getElementById('heroHeadline');
+            const heroDescription = document.getElementById('heroDescription');
+            const ctaGroup = document.getElementById('ctaGroup');
+            const cardSpec1 = document.getElementById('cardSpec1');
+            const cardSpec2 = document.getElementById('cardSpec2');
+            const cardSpec3 = document.getElementById('cardSpec3');
+            const studioBadge = document.getElementById('studioBadge');
+            const scrollHint = document.getElementById('scrollHint');
+            const btnEngineCanvas = document.getElementById('btnEngineCanvas');
+            const btnEngineVideo = document.getElementById('btnEngineVideo');
+            const globalScrubFill = document.getElementById('globalScrubFill');
+            const btnHeroBuy = document.getElementById('btnHeroBuy');
+            const btnNavBuy = document.getElementById('btnNavBuy');
+            const btnHeroExplore = document.getElementById('btnHeroExplore');
+            const modalBackdrop = document.getElementById('modalBackdrop');
+            const modalBox = document.getElementById('modalBox');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const modalOkBtn = document.getElementById('modalOkBtn');
+
+            // Handlers do Modal de Compra
+            const openBuyNotice = () => {
+                if (CONFIG.buyUrl && CONFIG.buyUrl.trim() !== "") {
+                    window.location.href = CONFIG.buyUrl;
+                } else {
+                    modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+                    modalBox.classList.remove('translate-y-4');
+                }
+            };
+            const closeBuyNotice = () => {
+                modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
+                modalBox.classList.add('translate-y-4');
+            };
+
+            if (btnHeroBuy) btnHeroBuy.addEventListener('click', openBuyNotice);
+            if (btnNavBuy) btnNavBuy.addEventListener('click', openBuyNotice);
+            if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeBuyNotice);
+            if (modalOkBtn) modalOkBtn.addEventListener('click', closeBuyNotice);
+            modalBackdrop.addEventListener('click', (e) => {
+                if (e.target === modalBackdrop) closeBuyNotice();
+            });
+
+            // Inicialização do Lenis Smooth Scroll
+            let lenis = null;
+            try {
+                if (typeof Lenis !== 'undefined') {
+                    lenis = new Lenis({
+                        lerp: 0.09,
+                        wheelMultiplier: 1.0,
+                        touchMultiplier: 1.5,
+                        smoothWheel: true,
+                        smoothTouch: false
+                    });
+                    lenis.on('scroll', ScrollTrigger.update);
+                    gsap.ticker.add((time) => lenis.raf(time * 1000));
+                    gsap.ticker.lagSmoothing(0);
+                }
+            } catch (err) {
+                console.warn('[Lenis] Usando rolagem nativa:', err);
+            }
+
+            // Registro do GSAP ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Instanciação do Motor de Vídeo MP4 (Modelo Exato Fornecido)
+            let activeEngine = CONFIG.renderEngine;
+            const videoScrubber = new PrecisionVideoScrubber(heroVideo);
+            const canvasScrubber = new AppleStyleCanvasScrubber(heroCanvas, CONFIG);
+
+            function switchEngine(mode) {
+                activeEngine = mode;
+                if (mode === 'canvas') {
+                    heroCanvas.style.display = 'block';
+                    heroVideo.style.display = 'none';
+                    if (btnEngineCanvas) btnEngineCanvas.classList.add('active');
+                    if (btnEngineVideo) btnEngineVideo.classList.remove('active');
+                    canvasScrubber.resize();
+                } else {
+                    heroCanvas.style.display = 'none';
+                    heroVideo.style.display = 'block';
+                    if (btnEngineCanvas) btnEngineCanvas.classList.remove('active');
+                    if (btnEngineVideo) btnEngineVideo.classList.add('active');
+                }
+                ScrollTrigger.refresh();
+            }
+
+            if (btnEngineCanvas) btnEngineCanvas.addEventListener('click', () => switchEngine('canvas'));
+            if (btnEngineVideo) btnEngineVideo.addEventListener('click', () => switchEngine('video'));
+            switchEngine('video'); // Vídeo nativo como padrão absoluto
+
+            // ======================================================================
+            // 1. ANIMAÇÃO DE ENTRADA: CLASSES DO DESIGN SYSTEM (.reveal.active & .reveal-active)
+            // ======================================================================
+            requestAnimationFrame(() => {
+                document.querySelectorAll('.text-reveal-wrapper').forEach(wrapper => {
+                    wrapper.classList.add('reveal-active');
+                });
+                document.querySelectorAll('.reveal').forEach(el => {
+                    el.classList.add('active');
+                });
+            });
+
+            // ======================================================================
+            // 2. SINCRONIZAÇÃO DIRETA DE SCRUBBING (GARANTE MOVIMENTO CONTÍNUO E FLUIDO)
+            // ======================================================================
+            function updateHeroScroll(progressFromTrigger) {
+                let p = progressFromTrigger;
+                if (typeof p !== 'number') {
+                    const rect = heroTrack.getBoundingClientRect();
+                    const totalScrollable = heroTrack.offsetHeight - window.innerHeight;
+                    if (totalScrollable > 0) {
+                        const scrolled = -rect.top;
+                        p = Math.max(0, Math.min(1, scrolled / totalScrollable));
+                    } else {
+                        p = 0;
+                    }
+                }
+
+                if (activeEngine === 'video') {
+                    videoScrubber.setProgress(p);
+                } else {
+                    canvasScrubber.setNormalizedProgress(p);
+                }
+
+                if (globalScrubFill) {
+                    globalScrubFill.style.width = (p * 100).toFixed(1) + "%";
+                }
+
+                if (p > 0.25) {
+                    if (heroLeftContent) heroLeftContent.style.pointerEvents = "none";
+                    if (editorialRail) editorialRail.style.pointerEvents = "none";
+                } else {
+                    if (heroLeftContent) heroLeftContent.style.pointerEvents = "auto";
+                    if (editorialRail) editorialRail.style.pointerEvents = "auto";
+                }
+            }
+
+            window.addEventListener('scroll', () => updateHeroScroll(), { passive: true });
+            if (lenis) lenis.on('scroll', () => updateHeroScroll());
+
+            // ======================================================================
+            // 3. TIMELINE MESTRE COM PINNING COMPACTO E AMORTECIMENTO SUAVE (ROLAGEM LENTA)
+            // ======================================================================
+            const masterHeroTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: heroTrack,
+                    pin: heroStage,
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 0.6,
+                    onUpdate: (self) => {
+                        updateHeroScroll(self.progress);
+                    }
+                }
+            });
+
+            // Os textos, botões e elementos da referência visual PERMANECEM VISÍVEIS durante a rotação da caneta!
+            // Eles só realizam a transição suave de saída no final da rolagem (após 78% da rotação) para dar lugar à Dobra 2.
+            masterHeroTimeline
+                .to(heroLeftContent, {
+                    y: -35,
+                    opacity: 0,
+                    filter: "blur(8px)",
+                    duration: 0.2,
+                    ease: "power2.in"
+                }, 0.78)
+                .to(scrollHint, {
+                    opacity: 0,
+                    y: 12,
+                    duration: 0.15,
+                    ease: "power2.in"
+                }, 0.78);
+
+            // ======================================================================
+            // 4. ANIMAÇÕES DA SEÇÃO 02: ARQUITETURA DE PRECISÃO (NEURAL ARCHITECTURE)
+            // ======================================================================
+            const archSection = document.getElementById('architectureSection');
+            if (archSection) {
+                // Entrada da Seção 02 ao rolar na tela
+                const archTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: archSection,
+                        start: "top 78%",
+                        end: "top 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                archTl
+                    .from(".arch-header-reveal", {
+                        y: 45,
+                        opacity: 0,
+                        filter: "blur(12px)",
+                        duration: 1.0,
+                        ease: "power2.out"
+                    })
+                    .from(".arch-visual-card-wrap", {
+                        scale: 0.94,
+                        y: 35,
+                        opacity: 0,
+                        filter: "blur(14px)",
+                        duration: 1.1,
+                        ease: "power2.out"
+                    }, "-=0.7")
+                    .from(".node-btn", {
+                        scale: 0.75,
+                        opacity: 0,
+                        stagger: 0.08,
+                        duration: 0.6,
+                        ease: "back.out(1.8)"
+                    }, "-=0.6")
+                    .from(".circuit-line", {
+                        opacity: 0,
+                        duration: 0.8,
+                        stagger: 0.06,
+                        ease: "power1.inOut"
+                    }, "-=0.6")
+                    .from(".arch-cta-banner", {
+                        y: 20,
+                        opacity: 0,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    }, "-=0.4");
+
+                // Interatividade dos Nós de Telemetria
+                const telemetryName = document.getElementById('telemetryName');
+                const telemetrySpec = document.getElementById('telemetrySpec');
+                const nodeBtns = document.querySelectorAll('.node-btn');
+
+                nodeBtns.forEach(btn => {
+                    btn.addEventListener('mouseenter', () => {
+                        const name = btn.getAttribute('data-name');
+                        const spec = btn.getAttribute('data-spec');
+
+                        if (telemetryName && name) telemetryName.textContent = name;
+                        if (telemetrySpec && spec) telemetrySpec.textContent = spec;
+                    });
+                });
+
+                // Seletor de Vistas do Card Visual (Estúdio / Ponta 0.1mm / Foto Real)
+                const viewTabBtns = document.querySelectorAll('.view-tab-btn');
+                const schematicPenImg = document.getElementById('schematicPenImg');
+                viewTabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        viewTabBtns.forEach(b => {
+                            b.classList.remove('active', 'bg-stone-800', 'text-white');
+                            b.classList.add('text-stone-400');
+                        });
+                        btn.classList.add('active', 'bg-stone-800', 'text-white');
+                        btn.classList.remove('text-stone-400');
+
+                        const targetImg = btn.getAttribute('data-img');
+                        if (schematicPenImg && targetImg) {
+                            gsap.to(schematicPenImg, {
+                                opacity: 0,
+                                duration: 0.22,
+                                onComplete: () => {
+                                    schematicPenImg.src = targetImg;
+                                    gsap.to(schematicPenImg, { opacity: 0.92, duration: 0.35 });
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+
+            // ======================================================================
+            // 5. ANIMAÇÕES DA SEÇÃO 03: LABORATÓRIO DE PRECISÃO & PAD INTERATIVO
+            // ======================================================================
+            const labSection = document.getElementById('laboratorySection');
+            if (labSection) {
+                const labTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: labSection,
+                        start: "top 75%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                labTl
+                    .from(".lab-header-reveal", {
+                        y: 30,
+                        opacity: 0,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    })
+                    .from("#drawingLabCard", {
+                        y: 25,
+                        opacity: 0,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    }, "-=0.5")
+                    .from(".lab-spec-card", {
+                        y: 20,
+                        opacity: 0,
+                        stagger: 0.08,
+                        duration: 0.6,
+                        ease: "power2.out"
+                    }, "-=0.5");
+            }
+
+            // PAD DE DESENHO VETORIAL INTERATIVO 0.1 MM
+            const drawCanvas = document.getElementById('drawCanvas');
+            const drawCanvasHint = document.getElementById('drawCanvasHint');
+            const strokeLengthMetric = document.getElementById('strokeLengthMetric');
+            const clearDrawBtn = document.getElementById('clearDrawBtn');
+            const presetHatchBtn = document.getElementById('presetHatchBtn');
+            const presetCubeBtn = document.getElementById('presetCubeBtn');
+
+            if (drawCanvas) {
+                const ctx = drawCanvas.getContext('2d');
+                let isDrawing = false;
+                let lastX = 0;
+                let lastY = 0;
+                let totalDrawnLength = 0;
+
+                const setupCanvasSize = () => {
+                    const rect = drawCanvas.getBoundingClientRect();
+                    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                    drawCanvas.width = rect.width * dpr;
+                    drawCanvas.height = rect.height * dpr;
+                    ctx.scale(dpr, dpr);
+                    ctx.strokeStyle = '#1C1917';
+                    ctx.lineWidth = 1.0;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                };
+
+                setupCanvasSize();
+                window.addEventListener('resize', setupCanvasSize);
+
+                const getCoords = (e) => {
+                    const rect = drawCanvas.getBoundingClientRect();
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    return {
+                        x: clientX - rect.left,
+                        y: clientY - rect.top
+                    };
+                };
+
+                const startDrawing = (e) => {
+                    if (e.cancelable && e.type.startsWith('touch')) e.preventDefault();
+                    isDrawing = true;
+                    if (drawCanvasHint) drawCanvasHint.style.opacity = '0';
+                    const pos = getCoords(e);
+                    lastX = pos.x;
+                    lastY = pos.y;
+                };
+
+                const drawLine = (e) => {
+                    if (!isDrawing) return;
+                    if (e.cancelable && e.type.startsWith('touch')) e.preventDefault();
+                    const pos = getCoords(e);
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(pos.x, pos.y);
+                    ctx.stroke();
+
+                    const dist = Math.hypot(pos.x - lastX, pos.y - lastY);
+                    totalDrawnLength += dist;
+                    if (strokeLengthMetric) {
+                        strokeLengthMetric.textContent = (totalDrawnLength * 0.26).toFixed(1) + ' mm';
+                    }
+
+                    lastX = pos.x;
+                    lastY = pos.y;
+                };
+
+                const stopDrawing = () => {
+                    isDrawing = false;
+                };
+
+                drawCanvas.addEventListener('mousedown', startDrawing);
+                drawCanvas.addEventListener('mousemove', drawLine);
+                window.addEventListener('mouseup', stopDrawing);
+
+                drawCanvas.addEventListener('touchstart', startDrawing, { passive: false });
+                drawCanvas.addEventListener('touchmove', drawLine, { passive: false });
+                window.addEventListener('touchend', stopDrawing);
+
+                // Botão de Limpar
+                if (clearDrawBtn) {
+                    clearDrawBtn.addEventListener('click', () => {
+                        const rect = drawCanvas.getBoundingClientRect();
+                        ctx.clearRect(0, 0, rect.width, rect.height);
+                        totalDrawnLength = 0;
+                        if (strokeLengthMetric) strokeLengthMetric.textContent = '0.0 mm';
+                        if (drawCanvasHint) drawCanvasHint.style.opacity = '1';
+                    });
+                }
+
+                // Botão de Hachura 45° Automática
+                if (presetHatchBtn) {
+                    presetHatchBtn.addEventListener('click', () => {
+                        if (drawCanvasHint) drawCanvasHint.style.opacity = '0';
+                        const rect = drawCanvas.getBoundingClientRect();
+                        ctx.clearRect(0, 0, rect.width, rect.height);
+                        ctx.strokeStyle = '#1C1917';
+                        ctx.lineWidth = 1.0;
+
+                        let step = 16;
+                        for (let x = -rect.height; x < rect.width + rect.height; x += step) {
+                            ctx.beginPath();
+                            ctx.moveTo(x, 0);
+                            ctx.lineTo(x + rect.height, rect.height);
+                            ctx.stroke();
+                        }
+                        totalDrawnLength = 320;
+                        if (strokeLengthMetric) strokeLengthMetric.textContent = '83.2 mm';
+                    });
+                }
+
+                // Botão de Cubo Isométrico 3D Automático
+                if (presetCubeBtn) {
+                    presetCubeBtn.addEventListener('click', () => {
+                        if (drawCanvasHint) drawCanvasHint.style.opacity = '0';
+                        const rect = drawCanvas.getBoundingClientRect();
+                        ctx.clearRect(0, 0, rect.width, rect.height);
+                        ctx.strokeStyle = '#1C1917';
+                        ctx.lineWidth = 1.0;
+
+                        const cx = rect.width / 2;
+                        const cy = rect.height / 2;
+                        const s = Math.min(rect.width, rect.height) * 0.32;
+                        const angle = Math.PI / 6; // 30 graus
+
+                        const dx = s * Math.cos(angle);
+                        const dy = s * Math.sin(angle);
+
+                        const p0 = { x: cx, y: cy };
+                        const p1 = { x: cx, y: cy - s };
+                        const p2 = { x: cx + dx, y: cy - dy };
+                        const p3 = { x: cx + dx, y: cy + dy };
+                        const p4 = { x: cx, y: cy + s };
+                        const p5 = { x: cx - dx, y: cy + dy };
+                        const p6 = { x: cx - dx, y: cy - dy };
+
+                        // Perímetro externo do hexágono
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.lineTo(p3.x, p3.y);
+                        ctx.lineTo(p4.x, p4.y);
+                        ctx.lineTo(p5.x, p5.y);
+                        ctx.lineTo(p6.x, p6.y);
+                        ctx.closePath();
+                        ctx.stroke();
+
+                        // Vértices internos convergindo no centro (efeito Y)
+                        ctx.beginPath();
+                        ctx.moveTo(p0.x, p0.y);
+                        ctx.lineTo(p1.x, p1.y);
+                        ctx.moveTo(p0.x, p0.y);
+                        ctx.lineTo(p3.x, p3.y);
+                        ctx.moveTo(p0.x, p0.y);
+                        ctx.lineTo(p5.x, p5.y);
+                        ctx.stroke();
+
+                        // Hachura técnica sutil na face superior
+                        ctx.save();
+                        ctx.strokeStyle = 'rgba(28, 25, 23, 0.4)';
+                        for (let i = 1; i <= 6; i++) {
+                            const t = i / 7;
+                            ctx.beginPath();
+                            ctx.moveTo(p6.x + (p1.x - p6.x) * t, p6.y + (p1.y - p6.y) * t);
+                            ctx.lineTo(p0.x + (p2.x - p0.x) * t, p0.y + (p2.y - p0.y) * t);
+                            ctx.stroke();
+                        }
+                        ctx.restore();
+
+                        totalDrawnLength = Math.round(s * 10);
+                        if (strokeLengthMetric) strokeLengthMetric.textContent = (totalDrawnLength * 0.26).toFixed(1) + ' mm';
+                    });
+                }
+            }
+
+            // Botão "Explorar": navega suavemente para a Seção 02 (Arquitetura)
+            if (btnHeroExplore) {
+                btnHeroExplore.addEventListener('click', () => {
+                    if (archSection) {
+                        if (lenis) {
+                            lenis.scrollTo(archSection, {
+                                offset: 0,
+                                duration: 1.8,
+                                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                            });
+                        } else {
+                            archSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                });
+            }
+
+            // ======================================================================
+            // 6. ANIMAÇÕES DA SEÇÃO 04: CINEMATIC GLOW & BEAM BOX
+            // ======================================================================
+            const cinematicSection = document.getElementById('cinematicGlowSection');
+            if (cinematicSection) {
+                const cinematicTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: cinematicSection,
+                        start: "top 75%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+
+                cinematicTl
+                    .from(".cinematic-header-reveal", {
+                        y: 45,
+                        opacity: 0,
+                        filter: "blur(14px)",
+                        duration: 1.0,
+                        ease: "power2.out"
+                    })
+                    .from(".cinematic-glow-card-wrap", {
+                        scale: 0.94,
+                        y: 35,
+                        opacity: 0,
+                        filter: "blur(16px)",
+                        duration: 1.1,
+                        ease: "power2.out"
+                    }, "-=0.7")
+                    .from("#cinematicGlowSection .grid > div", {
+                        y: 25,
+                        opacity: 0,
+                        filter: "blur(8px)",
+                        stagger: 0.1,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    }, "-=0.5");
+            }
+
+            // Redimensionamento
+            window.addEventListener('resize', () => {
+                canvasScrubber.resize();
+                ScrollTrigger.refresh();
+            });
+        });
+    </script>
+</Layout>

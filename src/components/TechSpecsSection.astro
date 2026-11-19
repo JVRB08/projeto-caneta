@@ -1,0 +1,134 @@
+---
+interface SpecItem {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  specs?: SpecItem[];
+  class?: string;
+}
+
+const {
+  eyebrow = "ESPECIFICAÇÕES TÉCNICAS",
+  title = "Cal. Pigmentum 0.1",
+  description = "A ARTOOLS Pigmentum 0.1 representa o ápice da engenharia micromecânica de escrita, integrando precisão suíça com alimentação osmótica por capilaridade contínua. Desenvolvida para criadores que exigem calibração micrométrica, traço ininterrupto de 1.200 metros e secagem instantânea sem borrões em qualquer gramatura.",
+  specs = [
+    {
+      label: "CALIBRE / PONTA",
+      value: "0.1 mm // Microesfera sinterizada de Carbeto de Tungstênio com assentamento cerâmico"
+    },
+    {
+      label: "SISTEMA DE FLUXO",
+      value: "Válvula isométrica com alimentação por capilaridade contínua de 14 canais"
+    },
+    {
+      label: "COMPOSIÇÃO DA TINTA",
+      value: "Carbon Black nano-pigmentada pura, 100% resistente à água e radiação UV (ISO 14145-2)"
+    },
+    {
+      label: "AUTONOMIA LINEAR",
+      value: "1.200 metros contínuos com densidade óptica uniforme do início ao fim"
+    },
+    {
+      label: "TEMPO DE SECAGEM",
+      value: "0.8 segundos em papéis técnicos de 80g/m² a 300g/m² (Zero borrão ou sangramento)"
+    },
+    {
+      label: "CHASSI / ESTRUTURA",
+      value: "Monobloco usinado em alumínio aeroespacial 6061-T6 anodizado acetinado"
+    },
+    {
+      label: "PESO & EQUILÍBRIO",
+      value: "11.8 g com centro de massa baricêntrico posicionado a 48% do eixo frontal"
+    },
+    {
+      label: "TOLERÂNCIA MECÂNICA",
+      value: "±0.002 mm (Usinagem CNC suíça de cinco eixos com calibração individual)"
+    },
+    {
+      label: "PRESSÃO DE OPERAÇÃO",
+      value: "Neutra (0.05 N) — traço perfeito por pura adesão superficial, sem esforço manual"
+    },
+    {
+      label: "CLIPE & FIXAÇÃO",
+      value: "Aço mola temperado cortado a laser com tensão elástica calibrada para 12 N"
+    },
+    {
+      label: "COMPATIBILIDADE",
+      value: "Papel vegetal, sulfite, bristol, algodão aquarelável, mylar e película técnica de poliéster"
+    },
+    {
+      label: "ACABAMENTO",
+      value: "Jateamento microporoso fosco antirreflexo com gravação micrométrica a laser"
+    }
+  ],
+  class: className = ""
+} = Astro.props;
+---
+
+<!-- ==========================================================================
+   NOVA DOBRA: TABELA DE ESPECIFICAÇÕES TÉCNICAS (100% PRETO // FONTE EDITORIAL ITÁLICA)
+   ========================================================================== -->
+<section
+  id="techSpecsSection"
+  class:list={[
+    "relative z-20 w-full py-20 sm:py-28 px-6 text-white select-none border-b border-neutral-900",
+    className
+  ]}
+  style="background-color: #000000;"
+  aria-label="Tabela de Especificações Técnicas da Caneta ARTOOLS"
+>
+  <!-- Background Glow sutil e sofisticado -->
+  <div
+    class="absolute inset-0 pointer-events-none opacity-15"
+    style="background-image: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);"
+  ></div>
+
+  <div class="relative z-10 max-w-4xl mx-auto">
+    <!-- Cabeçalho Editorial com Fonte Itálica Clássica (Referência Cal. V5001) -->
+    <div class="text-center mb-12 sm:mb-16">
+      <span class="block text-[11px] font-mono uppercase tracking-[0.28em] text-neutral-400 mb-3">
+        {eyebrow}
+      </span>
+
+      <h2 class="font-editorial-italic text-4xl sm:text-5xl md:text-6xl text-white font-normal tracking-tight mb-5">
+        {title}
+      </h2>
+
+      <p class="font-sans text-xs sm:text-sm text-neutral-400 font-light max-w-2xl mx-auto leading-relaxed text-center">
+        {description}
+      </p>
+    </div>
+
+    <!-- Tabela / Lista de Especificações Técnicas (Simples, Direta e Elegante) -->
+    <div class="border-t border-neutral-900 divide-y divide-neutral-900">
+      {specs.map((item) => (
+        <div class="py-4 sm:py-5 flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6 hover:bg-white/[0.02] transition-colors px-2 sm:px-3 rounded">
+          <!-- Coluna 1: Rótulo Técnico -->
+          <div class="w-full sm:w-56 md:w-64 shrink-0 font-mono text-[11px] sm:text-xs uppercase tracking-[0.18em] text-neutral-400 font-medium">
+            {item.label}
+          </div>
+
+          <!-- Coluna 2: Valor Técnico -->
+          <div class="font-sans text-xs sm:text-sm md:text-[14px] text-neutral-200 font-light leading-relaxed">
+            {item.value}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Rodapé Minimalista da Tabela -->
+    <div class="mt-8 pt-4 border-t border-neutral-900 flex flex-wrap items-center justify-between gap-4 font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-neutral-400">
+      <div class="flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        <span>CONTROLE DE QUALIDADE ISO 9001:2015</span>
+      </div>
+      <span>PROJETADO & CALIBRADO PARA PRECISÃO ABSOLUTA</span>
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,51 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  brandName?: string;
+  brandTag?: string;
+}
+
+const {
+  brandName = "ARTOOLS",
+  brandTag = "PRO"
+} = Astro.props;
+---
+
+<!-- Cabeçalho Idêntico à Referência Visual do Design System -->
+<header
+    class="fixed top-0 left-0 w-full z-50 border-b border-stone-200/80 bg-white/70 backdrop-blur-md transition-transform duration-500"
+    id="navbar">
+    <div class="max-w-[1440px] mx-auto flex justify-between items-center px-6 md:px-12 py-3.5">
+        <!-- Logo e Identificação -->
+        <a href="#" class="flex items-center gap-2.5 group cursor-pointer" aria-label="ARTOOLS PRO Página Inicial">
+            <div
+                class="w-7 h-7 bg-stone-900 text-white flex items-center justify-center rounded-sm transition-transform group-hover:rotate-90 duration-500 shadow-none">
+                <iconify-icon icon="solar:pen-bold" class="text-base"></iconify-icon>
+            </div>
+            <div class="flex items-baseline gap-1.5">
+                <span class="font-display font-bold tracking-tight text-base text-stone-900">{brandName}</span>
+                <span class="font-mono text-xs uppercase tracking-widest text-stone-400 font-semibold">{brandTag}</span>
+            </div>
+        </a>
+
+        <!-- Links Centrais: DESIGN, TECHNOLOGY, SPECS -->
+        <nav class="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-stone-500">
+            <a href="#architectureSection" class="hover:text-stone-900 transition-colors">DESIGN</a>
+            <a href="#laboratorySection" class="hover:text-stone-900 transition-colors">TECHNOLOGY</a>
+            <a href="#cinematicGlowSection" class="hover:text-stone-900 transition-colors">SPECS</a>
+        </nav>
+
+        <!-- Ação Direita: Ícone de Sacola / Carrinho da Referência -->
+        <div class="flex items-center gap-4">
+            <button type="button"
+                id="btnNavBuy"
+                class="p-2 text-stone-700 hover:text-stone-950 transition-colors cursor-pointer relative group"
+                aria-label="Carrinho de Compras"
+                onclick="document.getElementById('btnHeroBuy')?.click()">
+                <iconify-icon icon="solar:bag-2-linear" class="text-xl group-hover:scale-110 transition-transform"></iconify-icon>
+                <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#FF5A36]"></span>
+            </button>
+        </div>
+    </div>
+</header>

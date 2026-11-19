@@ -1,0 +1,31 @@
+---
+interface Props {
+  brand?: string;
+  series?: string;
+  specs?: string;
+}
+
+const {
+  brand = "ARTOOLS PIGMENTUM 0.1",
+  series = "SÉRIE LIMITADA 2026",
+  specs = "ENGENHARIA SUÍÇA • PIGMENTO MINERAL FÓSSIL • ALUMÍNIO AEROESPACIAL"
+} = Astro.props;
+---
+
+<!-- Rodapé Editorial Aura Design System -->
+<footer
+    class="relative z-20 w-full bg-[#0A0A0D] border-t border-white/10 py-8 px-6 md:px-12 text-neutral-400"
+    id="footer">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs">
+        <div class="flex items-center gap-3">
+            <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+            <span class="text-white font-medium">{brand}</span>
+            <span class="text-neutral-600">//</span>
+            <span class="text-neutral-400">{series}</span>
+        </div>
+        <div class="text-[11px] text-neutral-500 text-center sm:text-right">
+            {specs}
+        </div>
+    </div>
+</footer>
+

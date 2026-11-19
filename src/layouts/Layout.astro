@@ -1,0 +1,544 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = "ARTOOLS Pigmentum — A caneta mais tecnológica do mundo",
+  description = "ARTOOLS Pigmentum 0.1: Precisão micrométrica, calibração suíça de cinco eixos, fluxo contínuo de tinta nano-pigmentada e renderização de produto ultra-fluida.",
+  image = "/assets/images/pen_architecture_dark.jpg"
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#EAEAE5" />
+
+    <!-- Favicon (SVG Monobloco) -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231C1917'%3E%3Cpath d='M12 2L2 22h20L12 2zm0 3.5l6.5 13H5.5L12 5.5z'/%3E%3C/svg%3E" />
+
+    <!-- Open Graph / Meta Compartilhamento -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS (Aura Design System) -->
+    <script is:inline src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Iconify (Aura Design System) -->
+    <script is:inline src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.18/dist/lenis.css">
+    <script is:inline src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script is:inline>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        serif: ['Playfair Display', 'Cormorant Garamond', 'Georgia', 'serif'],
+                        editorial: ['Cormorant Garamond', 'Playfair Display', 'Georgia', 'serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            300: '#d6d3d1',
+                            400: '#a8a29e',
+                            500: '#78716c',
+                            600: '#57534e',
+                            700: '#44403c',
+                            800: '#292524',
+                            900: '#1c1917',
+                        },
+                        'surface-light': '#EAEAE5',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 8s linear infinite',
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3.5s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.45', transform: 'scale(1)' },
+                            '50%': { opacity: '0.8', transform: 'scale(1.06)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="antialiased min-h-screen relative selection:bg-stone-800 selection:text-white">
+    <!-- Noise Texture Layer (Aura Design System) -->
+    <div class="noise" aria-hidden="true"></div>
+
+    <!-- Architectural Grid Lines (Aura Design System) -->
+    <div class="max-w-[1440px] mx-auto pointer-events-none fixed inset-0 z-0 grid grid-cols-1 md:grid-cols-12 gap-0 h-full w-full opacity-35"
+        aria-hidden="true">
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+        <div class="hidden md:block md:col-span-1 border-r border-stone-300 h-full"></div>
+    </div>
+
+    <!-- Cabeçalho Modular -->
+    <Header />
+
+    <!-- Conteúdo da Página -->
+    <slot />
+
+    <!-- Rodapé Modular -->
+    <Footer />
+</body>
+</html>
+
+<style is:global>
+    /* ==========================================================================
+       AURA DESIGN SYSTEM BASE & MOTION PRIMITIVES
+       ========================================================================== */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #EAEAE5;
+        color: #1C1917;
+        overflow-x: clip;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* TYPOGRAPHY UTILS */
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .text-outline {
+        -webkit-text-stroke: 1.5px #1C1917;
+        color: transparent;
+        transition: all 0.5s ease;
+    }
+
+    /* REVEAL ANIMATIONS (AURA DS) */
+    .reveal {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+        will-change: transform, opacity, filter;
+        transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease, filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* TEXT MASK REVEAL (AURA DS) */
+    .text-reveal-wrapper {
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: bottom;
+        padding-bottom: 0.04em;
+    }
+
+    .text-reveal-content {
+        transform: translateY(0);
+        opacity: 1;
+        filter: blur(0px);
+        will-change: transform, opacity, filter;
+        transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease, filter 1s cubic-bezier(0.16, 1, 0.3, 1);
+        display: block;
+    }
+
+    /* DELAYS FROM DESIGN SYSTEM */
+    .delay-100 {
+        transition-delay: 0.1s;
+    }
+
+    .delay-200 {
+        transition-delay: 0.2s;
+    }
+
+    .delay-300 {
+        transition-delay: 0.3s;
+    }
+
+    .delay-500 {
+        transition-delay: 0.5s;
+    }
+
+    .delay-700 {
+        transition-delay: 0.7s;
+    }
+
+    /* BEAM BUTTON ANIMATION FROM DESIGN SYSTEM */
+    @keyframes spinBeam {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .btn-beam {
+        position: relative;
+        z-index: 10;
+        overflow: hidden;
+    }
+
+    .btn-beam::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        z-index: -1;
+        background: conic-gradient(from 90deg at 50% 50%, #E2E8F0 0%, #000000 50%, #E2E8F0 100%);
+        animation: spinBeam 4s linear infinite;
+        border-radius: inherit;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .btn-beam:hover::before {
+        opacity: 1;
+    }
+
+    .btn-beam-content {
+        background-color: #1c1917;
+        color: white;
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* GEMINI ANIMATION FLOW & GLOW PRIMITIVES (DOBRA 4) */
+    .font-cursive {
+        font-family: 'Caveat', 'Great Vibes', cursive;
+    }
+
+    .font-editorial-italic {
+        font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+        font-style: italic;
+    }
+
+    @keyframes marqueeScrollLeft {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    @keyframes marqueeScrollRight {
+        0% { transform: translateX(-50%); }
+        100% { transform: translateX(0); }
+    }
+
+    .marquee-track-left {
+        display: flex;
+        width: max-content;
+        will-change: transform;
+        animation: marqueeScrollLeft 75s linear infinite;
+    }
+
+    .marquee-track-right {
+        display: flex;
+        width: max-content;
+        will-change: transform;
+        animation: marqueeScrollRight 36s linear infinite;
+    }
+
+    .marquee-track-left:hover,
+    .marquee-track-right:hover {
+        animation-play-state: paused;
+    }
+    @keyframes spinBeamSlow {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .glow-box-wrapper {
+        position: relative;
+        border-radius: 1.75rem;
+        padding: 1.5px;
+        overflow: hidden;
+    }
+
+    .glow-beam-rotator {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, transparent 0deg, transparent 260deg, rgba(255, 255, 255, 0.25) 300deg, rgba(255, 255, 255, 0.95) 340deg, #ffffff 360deg);
+        animation: spinBeamSlow 3.8s linear infinite;
+        pointer-events: none;
+    }
+
+    .glow-box-halo {
+        position: absolute;
+        inset: -14px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 75%);
+        border-radius: 2.25rem;
+        filter: blur(32px);
+        pointer-events: none;
+        opacity: 0.85;
+        animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Border Gradient from Gemini Animations Template */
+    [style*="--border-gradient"]::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        padding: 1px;
+        border-radius: var(--border-radius-before, inherit);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        background: var(--border-gradient);
+        pointer-events: none;
+    }
+
+    /* FLASHLIGHT EFFECT FROM DESIGN SYSTEM */
+    .flashlight-card {
+        background: rgba(255, 255, 255, 0.55);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .flashlight-card::before {
+        content: "";
+        position: absolute;
+        inset: 0px;
+        background: radial-gradient(400px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+                rgba(255, 255, 255, 0.8),
+                transparent 60%);
+        opacity: 0;
+        transition: opacity 0.4s;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    .flashlight-card:hover::before {
+        opacity: 1;
+    }
+
+    /* NOISE GRAIN FROM DESIGN SYSTEM */
+    .noise {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.035;
+        pointer-events: none;
+        z-index: 9999;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* CUSTOM SCROLLBAR FROM DESIGN SYSTEM */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #EAEAE5;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #d6d3d1;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #a8a29e;
+    }
+
+    /* SCROLL CONTAINER & PINNING */
+    .hero-scrub-track {
+        position: relative;
+        width: 100%;
+        height: 360vh;
+        background-color: #EAEAE5;
+    }
+
+    .hero-stage {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+        background-color: #EAEAE5;
+    }
+
+    /* VISUAL CANVAS & VIDEO LAYERS */
+    .hero-canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        display: none;
+    }
+
+    .hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        z-index: 1;
+        display: block;
+        background: transparent;
+        pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+        .hero-video {
+            object-position: center 65%;
+        }
+    }
+
+    /* SOFT SHIELDS FOR SEAMLESS BACKGROUND BLEND */
+    .video-left-shield,
+    .video-edge-shield-top,
+    .video-edge-shield-bottom {
+        display: none !important;
+    }
+
+    /* ANIMATED SCROLL HINT LINE */
+    @keyframes scrollSlide {
+        0% {
+            left: -100%;
+        }
+
+        50% {
+            left: 0%;
+        }
+
+        100% {
+            left: 100%;
+        }
+    }
+
+    .animate-scroll-line {
+        animation: scrollSlide 2s infinite ease-in-out;
+    }
+
+    /* ENGINE SWITCHER PILL */
+    .engine-switch-badge {
+        position: absolute;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 40;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #1C1917;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 0.35rem 0.75rem;
+        border-radius: 9999px;
+        border: 1px solid #D6D3D1;
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        transition: all 0.3s ease;
+    }
+
+    .engine-toggle-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.6875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #78716C;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .engine-toggle-btn.active {
+        background: #1C1917;
+        color: #FFFFFF;
+        font-weight: 600;
+    }
+
+    /* ACCESSIBILITY: REDUCED MOTION */
+    @media (prefers-reduced-motion: reduce) {
+        .hero-scrub-track {
+            height: 100vh !important;
+        }
+
+        .reveal,
+        .text-reveal-content {
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+            transition: none !important;
+        }
+
+        .engine-switch-badge,
+        #scrollHint,
+        .global-scrub-bar {
+            display: none !important;
+        }
+    }
+</style>

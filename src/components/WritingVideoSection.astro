@@ -1,0 +1,58 @@
+---
+interface Props {
+  videoSrc?: string;
+  class?: string;
+}
+
+const { videoSrc = "/assets/videos/pen_writing.mp4", class: className = "" } =
+  Astro.props;
+---
+
+<!-- NOVA DOBRA: VÍDEO FIXADO (SEM OVERLAY // ALTURA 70% MAIOR QUE O MARQUEE) -->
+<section
+  id="videoWritingSection"
+  class:list={[
+    "relative z-20 w-full overflow-hidden bg-black border-b border-stone-900 select-none",
+    className,
+  ]}
+  style="height: calc(150px * 1.7); min-height: 200px;"
+  aria-label="ARTOOLS Pigment Ink Pen Vídeo em Ação"
+>
+  <!-- Vídeo sem nenhum overlay ou máscara: 100% visível, nítido e puro -->
+  <video
+    autoplay
+    loop
+    muted
+    playsinline
+    webkit-playsinline
+    class="w-full h-full object-cover object-center pointer-events-none"
+    src={videoSrc}
+  >
+    <source src={videoSrc} type="video/mp4" />
+    <source src="assets/videos/pen_writing.mp4" type="video/mp4" />
+  </video>
+</section>
+
+<script is:inline>
+  function syncVideoHeightWithMarquee() {
+    const marquee = document.getElementById("marqueeSection");
+    const videoSec = document.getElementById("videoWritingSection");
+    if (marquee && videoSec) {
+      const marqueeH = marquee.offsetHeight;
+      if (marqueeH > 0) {
+        // Altura exatamente 70% maior que a do marquee (1.7x)
+        const targetH = Math.round(marqueeH * 1.7);
+        videoSec.style.height = targetH + "px";
+      }
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    window.addEventListener("load", syncVideoHeightWithMarquee);
+    window.addEventListener("resize", syncVideoHeightWithMarquee);
+    document.addEventListener("DOMContentLoaded", syncVideoHeightWithMarquee);
+    syncVideoHeightWithMarquee();
+    setTimeout(syncVideoHeightWithMarquee, 100);
+    setTimeout(syncVideoHeightWithMarquee, 500);
+  }
+</script>
