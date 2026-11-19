@@ -1,171 +1,147 @@
 ---
 import Button from './Button.astro';
 
-interface Metric {
-  label: string;
-  badge?: string;
-  value: string;
-  subtext: string;
+interface EngineeringCard {
+  tag: string;
+  badge: string;
+  metricLabel: string;
+  metricValue: string;
+  title: string;
+  description: string;
+  footerIcon: string;
+  footerLeft: string;
+  footerRight: string;
 }
 
 interface Props {
-  sphereTitle?: string;
-  tagline?: string;
-  category?: string;
-  title?: string;
-  features?: string[];
-  metrics?: Metric[];
-  warrantyTitle?: string;
-  warrantySubtext?: string;
+  cards?: EngineeringCard[];
   ctaText?: string;
   ctaAction?: string;
   class?: string;
 }
 
+const defaultCards: EngineeringCard[] = [
+  {
+    tag: "01 // MICROESFERA",
+    badge: "9.5 MOHS",
+    metricLabel: "TOLERÂNCIA DIMENSIONAL",
+    metricValue: "±0.002 mm",
+    title: "Esfera em Carbeto de Tungstênio",
+    description: "Usinagem suíça de 5 eixos com dureza próxima ao diamante. Mantém esfericidade pura sem desgaste ou deformação mesmo sob uso intensivo contínuo.",
+    footerIcon: "solar:shield-check-bold",
+    footerLeft: "Usinagem Suíça 5-Eixos",
+    footerRight: "Precisão 99.98%"
+  },
+  {
+    tag: "02 // HIDRODINÂMICA",
+    badge: "PRESSÃO NULA",
+    metricLabel: "SECAGEM MOLECULAR",
+    metricValue: "0.8s",
+    title: "Fluxo Laminar Capilar",
+    description: "Deposição acionada por pura tensão superficial e gravidade. O traço flui sem exigir pressão da mão, eliminando resíduos secos e falhas de linha.",
+    footerIcon: "solar:waterdrop-bold",
+    footerLeft: "Zero Resíduo Seco",
+    footerRight: "Deposição 0g"
+  },
+  {
+    tag: "03 // LONGEVIDADE",
+    badge: "SERIADO 2026",
+    metricLabel: "AUTONOMIA DE TRAÇO",
+    metricValue: "1.200 m",
+    title: "Calibração e Rastreabilidade",
+    description: "Mais de 1.200 metros de linha contínua sem perda de tom ou densidade ótica. Chassi monobloco numerado com certificado vitalício de alinhamento.",
+    footerIcon: "solar:verified-check-bold",
+    footerLeft: "Garantia Vitalícia",
+    footerRight: "Lote Numerado"
+  }
+];
+
 const {
-  sphereTitle = "ESFERA EM CARBETO DE TUNGSTÊNIO 9.5 MOHS",
-  tagline = "USINAGEM SUÍÇA 5-EIXOS",
-  category = "Engenharia de Materiais // 0.1 mm",
-  title = "Dureza de diamante. Deposição de precisão atômica.",
-  features = [
-    "Micro-rolamento esférico",
-    "Fluxo laminar capilar",
-    "Zero resíduo seco"
-  ],
-  metrics = [
-    {
-      label: "TOLERÂNCIA DIMENSIONAL",
-      badge: "99.98%",
-      value: "±0.002 mm",
-      subtext: "Calibração suíça micrométrica"
-    },
-    {
-      label: "ESCALA DE DUREZA MINERAL",
-      badge: "GRAU 9.5",
-      value: "9.5 Mohs",
-      subtext: "Carbeto de tungstênio puro"
-    },
-    {
-      label: "AUTONOMIA DE TRAÇO",
-      badge: "CONTÍNUO",
-      value: "1.200 Metros",
-      subtext: "Deposição sem falhas ou perda de tom"
-    }
-  ],
-  warrantyTitle = "Garantia Vitalícia de Calibragem",
-  warrantySubtext = "Peça numerada com cartão de rastreabilidade do lote.",
+  cards = defaultCards,
   ctaText = "ADQUIRIR SÉRIE ARTOOLS",
   ctaAction = "document.getElementById('btnHeroBuy').click()",
   class: className = ""
 } = Astro.props;
 ---
 
-<!-- BOX COM EFEITO DE GLOW & BORDER FLOW (INSPIRADO NO TEMPLATE GEMINI ANIMATIONS) -->
-<div class:list={["relative w-full max-w-4xl cinematic-glow-card-wrap", className]}>
+<!-- 3 CARDS DE ENGENHARIA OBJETIVOS COM EFEITO CONIC GLOW BEAM -->
+<div class:list={["w-full max-w-6xl", className]}>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 w-full items-stretch">
+    {cards.map((card) => (
+      <div class="relative w-full cinematic-glow-card-wrap flex flex-col group">
+        <!-- Halo de Glow Atmosférico Traseiro -->
+        <div class="glow-box-halo opacity-40 group-hover:opacity-75 transition-opacity"></div>
 
-    <!-- Halo de Glow Atmosférico Traseiro -->
-    <div class="glow-box-halo"></div>
+        <!-- Container com Borda Animada em Rotação Contínua (Conic-Gradient Beam) -->
+        <div class="glow-box-wrapper shadow-2xl flex-1 flex flex-col h-full">
+          <div class="glow-beam-rotator"></div>
 
-    <!-- Container com Borda Animada em Rotação Contínua (Conic-Gradient Beam) -->
-    <div class="glow-box-wrapper shadow-2xl">
-        <div class="glow-beam-rotator"></div>
-
-        <!-- Corpo Principal do Box (Glassmorphism Dark de Alto Padrão) -->
-        <div
-            class="relative z-10 rounded-[calc(1.75rem-1.5px)] bg-[#0C0C10]/90 backdrop-blur-2xl border border-white/15 p-6 md:p-8 overflow-hidden">
-
+          <!-- Corpo Principal do Box (Glassmorphism Dark de Alto Padrão) -->
+          <div class="relative z-10 rounded-[calc(1.75rem-1.5px)] bg-[#0C0C10]/90 backdrop-blur-2xl border border-white/15 p-6 md:p-7 flex flex-col justify-between h-full overflow-hidden flex-1">
+            
             <!-- Blueprint Grid de Fundo Sutil -->
-            <div class="absolute inset-0 bg-grid opacity-10 pointer-events-none"
-                style="background-size: 24px 24px; background-image: linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);">
-            </div>
+            <div
+              class="absolute inset-0 bg-grid opacity-10 pointer-events-none"
+              style="background-size: 20px 20px; background-image: linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);"
+            ></div>
 
             <!-- Top Ribbon de Telemetria -->
-            <div
-                class="relative z-10 flex flex-wrap items-center justify-between pb-4 mb-5 border-b border-white/10 gap-2 font-mono text-xs">
-                <div
-                    class="flex items-center gap-2 text-neutral-300 uppercase tracking-widest text-[11px] sm:text-xs">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span class="text-white font-semibold">{sphereTitle}</span>
-                </div>
-                <span
-                    class="px-2.5 py-0.5 rounded-full bg-white/10 text-emerald-300 text-[10px] uppercase font-bold tracking-wider border border-white/10">
-                    {tagline}
+            <div class="relative z-10 flex items-center justify-between pb-3.5 mb-5 border-b border-white/10 font-mono text-xs">
+              <div class="flex items-center gap-2 text-neutral-300 uppercase tracking-widest text-[10px]">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                <span class="text-white font-semibold">{card.tag}</span>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-emerald-300 text-[10px] uppercase font-bold tracking-wider border border-white/10">
+                {card.badge}
+              </span>
+            </div>
+
+            <!-- Conteúdo Central -->
+            <div class="relative z-10 flex-1 flex flex-col">
+              <!-- Métrica Principal em Destaque -->
+              <div class="mb-4">
+                <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-neutral-400 block mb-1">
+                  {card.metricLabel}
                 </span>
+                <div class="font-display text-3xl sm:text-4xl font-bold text-white tracking-tight">
+                  {card.metricValue}
+                </div>
+              </div>
+
+              <h3 class="font-display text-lg sm:text-xl font-bold text-white tracking-tight leading-snug mb-2.5">
+                {card.title}
+              </h3>
+
+              <p class="text-neutral-300 text-xs sm:text-[13px] font-light leading-relaxed mb-6 flex-1">
+                {card.description}
+              </p>
             </div>
 
-            <!-- Conteúdo Central de Destaque -->
-            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-
-                <div class="lg:col-span-7">
-                    <span
-                        class="text-xs font-mono uppercase tracking-[0.2em] text-neutral-400 block mb-1.5">{category}</span>
-                    <h3
-                        class="font-display text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-tight leading-tight mb-3">
-                        {title}
-                    </h3>
-                    <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-4">
-                        <slot name="description">
-                            A ponta não deforma, não desgasta e não perde a esfericidade mesmo após quilômetros
-                            de escrita. O acoplamento micrométrico de tolerância <span
-                                class="text-white font-semibold">±0.002 mm</span> impede o acúmulo de resíduos
-                            secos e garante que o primeiro traço do dia saia tão perfeito quanto o último.
-                        </slot>
-                    </p>
-
-                    <div class="flex flex-wrap items-center gap-2 text-[11px] font-mono">
-                        {features.map((feature) => (
-                            <span class="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-neutral-200">
-                                {feature}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-
-                <!-- Coluna Direita: Métricas Vitais de Engenharia em Box de Vidro Escuro -->
-                <div class="lg:col-span-5 flex flex-col gap-2.5">
-                    {metrics.map((metric) => (
-                        <div
-                            class="p-3 sm:p-3.5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-md hover:bg-white/10 transition-colors">
-                            <div
-                                class="flex items-center justify-between text-[10px] font-mono text-neutral-400 mb-0.5">
-                                <span>{metric.label}</span>
-                                {metric.badge && <span class="text-emerald-400">{metric.badge}</span>}
-                            </div>
-                            <div class="font-display text-xl sm:text-2xl font-bold text-white">{metric.value}</div>
-                            <div class="text-[10px] text-neutral-400">{metric.subtext}</div>
-                        </div>
-                    ))}
-                </div>
-
+            <!-- Rodapé / Micro-Telemetria Inferior -->
+            <div class="relative z-10 pt-4 border-t border-white/10 flex items-center justify-between font-mono text-[11px] text-neutral-400">
+              <span class="flex items-center gap-1.5 text-neutral-300">
+                <iconify-icon icon={card.footerIcon} class="text-emerald-400 text-sm"></iconify-icon>
+                {card.footerLeft}
+              </span>
+              <span class="text-neutral-400 text-[10px]">{card.footerRight}</span>
             </div>
 
-            <!-- Barra de Ação Inferior do Box com Botão de Feixe (Beam Animation do Template Gemini) -->
-            <div
-                class="relative z-10 mt-6 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0">
-                        <iconify-icon icon="solar:verified-check-bold"
-                            class="text-lg text-emerald-400"></iconify-icon>
-                    </div>
-                    <div>
-                        <div class="font-display text-xs sm:text-sm font-semibold text-white">{warrantyTitle}</div>
-                        <div class="text-[11px] text-neutral-400 font-light">{warrantySubtext}</div>
-                    </div>
-                </div>
-
-                <Button rounded="rounded-none" variant="beam-glow"
-                    onclick={ctaAction}
-                    icon="solar:arrow-right-bold-duotone"
-                    iconPosition="right"
-                >
-                    {ctaText}
-                </Button>
-
-            </div>
-
+          </div>
         </div>
-    </div>
+      </div>
+    ))}
+  </div>
 
+  <!-- Botão de Ação Centralizado (Quadrado // Beam Glow) -->
+  <div class="mt-8 flex justify-center">
+    <Button
+      rounded="rounded-none"
+      variant="beam-glow"
+      onclick={ctaAction}
+      icon="solar:arrow-right-bold-duotone"
+      iconPosition="right"
+    >
+      {ctaText}
+    </Button>
+  </div>
 </div>

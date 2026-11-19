@@ -6,12 +6,16 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  hideHeader?: boolean;
+  hideFooter?: boolean;
 }
 
 const {
   title = "ARTOOLS Pigmentum — A caneta mais tecnológica do mundo",
   description = "ARTOOLS Pigmentum 0.1: Precisão micrométrica, calibração suíça de cinco eixos, fluxo contínuo de tinta nano-pigmentada e renderização de produto ultra-fluida.",
-  image = "/assets/images/pen_architecture_dark.jpg"
+  image = "/assets/images/pen_architecture_dark.jpg",
+  hideHeader = false,
+  hideFooter = false
 } = Astro.props;
 ---
 
@@ -130,13 +134,13 @@ const {
     </div>
 
     <!-- Cabeçalho Modular -->
-    <Header />
+    {!hideHeader && <Header />}
 
     <!-- Conteúdo da Página -->
     <slot />
 
     <!-- Rodapé Modular -->
-    <Footer />
+    {!hideFooter && <Footer />}
 </body>
 </html>
 

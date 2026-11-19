@@ -1,0 +1,452 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+---
+
+<Layout
+  title="ARTOOLS Pigmentum 0.1 — Detalhes do Produto"
+  description="Especificações técnicas detalhadas da ARTOOLS Pigmentum 0.1: Usinagem suíça de 5-eixos, microesfera em carbeto de tungstênio 9.5 Mohs e fluxo capilar contínuo."
+>
+  <main class="min-h-screen pt-28 pb-24 px-6 md:px-12 max-w-[1440px] mx-auto relative z-10">
+
+    <!-- Navegação / Breadcrumbs Minimalista -->
+    <nav class="flex items-center gap-2.5 text-xs font-mono uppercase tracking-widest text-stone-400 mb-8 text-left" aria-label="Navegação">
+      <a href="/" class="hover:text-stone-900 transition-colors">Início</a>
+      <span class="text-stone-300">/</span>
+      <a href="/pagina2" class="hover:text-stone-900 transition-colors">Catálogo</a>
+      <span class="text-stone-300">/</span>
+      <span class="text-stone-900 font-medium">ARTOOLS Pigmentum 0.1</span>
+    </nav>
+
+    <!-- Estrutura Principal de Detalhes do Produto (Split Minimalista 2 Colunas) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start mb-24">
+
+      <!-- Coluna Esquerda: Galeria Visual Sem Bordas Arredondadas (100% Minimalista) -->
+      <div class="lg:col-span-7 flex flex-col gap-4">
+        <!-- Vitrine Principal -->
+        <div class="relative w-full h-[440px] sm:h-[560px] bg-stone-100 border border-stone-200 overflow-hidden rounded-none">
+          <!-- Badges Técnicos Quadrados Flutuantes -->
+          <div class="absolute top-4 left-4 z-10 flex items-center gap-2 font-mono text-[10px]">
+            <span class="px-2.5 py-1 bg-stone-900 text-white uppercase tracking-wider font-semibold rounded-none">
+              CALIBRE 0.1 MM
+            </span>
+            <span class="px-2.5 py-1 bg-white border border-stone-200 text-stone-700 uppercase tracking-wider font-medium rounded-none">
+              9.5 MOHS
+            </span>
+          </div>
+
+          <div class="absolute top-4 right-4 z-10 font-mono text-[10px] text-stone-600 bg-white/95 px-2.5 py-1 border border-stone-200 flex items-center gap-1.5 rounded-none">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>LOTE 2026 // ESGOTADO</span>
+          </div>
+
+          <!-- Imagem Principal de Alta Definição -->
+          <img
+            id="mainProductImage"
+            src="/assets/images/pens/pen_studio_white.jpg"
+            alt="ARTOOLS Pigmentum 0.1 Fotografia de Produto"
+            class="w-full h-full object-cover object-center transition-all duration-500"
+          />
+        </div>
+
+        <!-- Miniaturas Quadradas e Minimalistas -->
+        <div class="grid grid-cols-4 gap-3 font-mono text-xs">
+          <button
+            type="button"
+            class="thumb-btn h-20 sm:h-24 border-2 border-stone-900 bg-stone-100 overflow-hidden relative cursor-pointer rounded-none transition-all"
+            onclick="switchImage('/assets/images/pens/pen_studio_white.jpg', this)"
+          >
+            <img src="/assets/images/pens/pen_studio_white.jpg" alt="Visão Studio White" class="w-full h-full object-cover" />
+            <span class="absolute bottom-1 left-1 text-[8px] sm:text-[9px] bg-stone-900 text-white px-1 font-mono uppercase">01 • Studio</span>
+          </button>
+
+          <button
+            type="button"
+            class="thumb-btn h-20 sm:h-24 border border-stone-200 bg-stone-100 overflow-hidden relative cursor-pointer hover:border-stone-400 rounded-none transition-all"
+            onclick="switchImage('/assets/images/pen_architecture_uncapped.jpg', this)"
+          >
+            <img src="/assets/images/pen_architecture_uncapped.jpg" alt="Visão destampada" class="w-full h-full object-cover" />
+            <span class="absolute bottom-1 left-1 text-[8px] sm:text-[9px] bg-stone-900 text-white px-1 font-mono uppercase">02 • Ponta</span>
+          </button>
+
+          <button
+            type="button"
+            class="thumb-btn h-20 sm:h-24 border border-stone-200 bg-stone-100 overflow-hidden relative cursor-pointer hover:border-stone-400 rounded-none transition-all"
+            onclick="switchImage('/assets/images/pens/pen_raw_titanium.jpg', this)"
+          >
+            <img src="/assets/images/pens/pen_raw_titanium.jpg" alt="Visão Titânio Raw" class="w-full h-full object-cover" />
+            <span class="absolute bottom-1 left-1 text-[8px] sm:text-[9px] bg-stone-900 text-white px-1 font-mono uppercase">03 • Titânio</span>
+          </button>
+
+          <button
+            type="button"
+            class="thumb-btn h-20 sm:h-24 border border-stone-200 bg-stone-100 overflow-hidden relative cursor-pointer hover:border-stone-400 rounded-none transition-all"
+            onclick="switchImage('/assets/images/pens/pen_stealth_black.jpg', this)"
+          >
+            <img src="/assets/images/pens/pen_stealth_black.jpg" alt="Visão Stealth DLC" class="w-full h-full object-cover" />
+            <span class="absolute bottom-1 left-1 text-[8px] sm:text-[9px] bg-stone-900 text-white px-1 font-mono uppercase">04 • Stealth</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Coluna Direita: Conteúdo Minimalista & Direto -->
+      <div class="lg:col-span-5 flex flex-col justify-between text-left">
+        <div>
+          <!-- Eyebrow Técnico -->
+          <div class="mb-3">
+            <span class="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.22em] text-stone-400 font-medium">
+              SÉRIE TUNGSTÊNIO // USINAGEM 5-EIXOS
+            </span>
+          </div>
+
+          <!-- Título Oficial -->
+          <h1 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-stone-900 leading-[0.98] mb-4">
+            ARTOOLS Pigmentum 0.1
+          </h1>
+
+          <!-- Preço & Lote -->
+          <div class="flex items-baseline gap-3 mb-6 pb-6 border-b border-stone-200">
+            <span class="font-display text-2xl sm:text-3xl font-bold text-stone-900">R$ 389,00</span>
+            <span class="font-mono text-[10px] text-stone-500 uppercase tracking-widest bg-stone-100 px-2 py-0.5 rounded-none">
+              Lote 01 Esgotado
+            </span>
+          </div>
+
+          <!-- Descrição Minimalista -->
+          <p class="text-stone-600 text-xs sm:text-sm font-light leading-relaxed mb-8">
+            Usinada a partir de alumínio aeroespacial com tolerância micrométrica de <strong>±0.002 mm</strong>.
+            A microesfera em carbeto de tungstênio (dureza 9.5 Mohs) opera sob pressão neutra de contato, proporcionando
+            fluxo capilar constante de tinta nano-pigmentada indelével.
+          </p>
+
+          <!-- Seletor de Calibre Minimalista (Quadrado) -->
+          <div class="mb-8">
+            <label class="block font-mono text-[11px] uppercase tracking-wider text-stone-500 mb-2">
+              Calibre da Microesfera
+            </label>
+            <div class="grid grid-cols-3 gap-2 font-mono text-xs">
+              <button type="button" class="caliber-btn py-2.5 border-2 border-stone-900 bg-stone-900 text-white font-medium text-center rounded-none cursor-pointer">
+                0.1 mm
+              </button>
+              <button type="button" class="caliber-btn py-2.5 border border-stone-300 bg-white text-stone-700 hover:border-stone-900 text-center transition-colors rounded-none cursor-pointer">
+                0.3 mm
+              </button>
+              <button type="button" class="caliber-btn py-2.5 border border-stone-300 bg-white text-stone-700 hover:border-stone-900 text-center transition-colors rounded-none cursor-pointer">
+                0.05 mm
+              </button>
+            </div>
+          </div>
+
+          <!-- Especificações Técnicas em Linhas Finas Minimalistas (Sem caixas pesadas) -->
+          <div class="border-t border-stone-200 font-mono text-xs mb-8">
+            <div class="py-3 border-b border-stone-100 flex items-center justify-between">
+              <span class="text-stone-400 text-[11px] uppercase tracking-wider">Escala de Dureza Mineral</span>
+              <span class="font-semibold text-stone-900">9.5 Mohs (Carbeto Puro)</span>
+            </div>
+            <div class="py-3 border-b border-stone-100 flex items-center justify-between">
+              <span class="text-stone-400 text-[11px] uppercase tracking-wider">Tolerância Dimensional</span>
+              <span class="font-semibold text-stone-900">±0.002 mm (Calibração Suíça)</span>
+            </div>
+            <div class="py-3 border-b border-stone-100 flex items-center justify-between">
+              <span class="text-stone-400 text-[11px] uppercase tracking-wider">Tempo de Fixação Ótica</span>
+              <span class="font-semibold text-stone-900">0.8 segundos (Anti-Borrão)</span>
+            </div>
+            <div class="py-3 border-b border-stone-100 flex items-center justify-between">
+              <span class="text-stone-400 text-[11px] uppercase tracking-wider">Autonomia Linear</span>
+              <span class="font-semibold text-stone-900">1.200 Metros de Traço Contínuo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ação: Botão Avise-me Quadrado -->
+        <div class="pt-4 border-t border-stone-200">
+          <div class="mb-3 flex items-center justify-between font-mono text-[11px] text-stone-500">
+            <span class="flex items-center gap-1.5">
+              <iconify-icon icon="solar:shield-check-bold" class="text-emerald-500 text-sm"></iconify-icon>
+              Garantia Vitalícia de Calibragem
+            </span>
+            <span>Série 2026</span>
+          </div>
+
+          <Button
+            rounded="rounded-none"
+            variant="primary"
+            size="lg"
+            class="w-full text-center"
+            icon="solar:bell-bold"
+            iconPosition="left"
+            onclick="openNotifyModal('ARTOOLS Pigmentum 0.1')"
+          >
+            Avise-me quando chegar
+          </Button>
+
+          <p class="text-[10px] font-mono text-stone-400 text-center mt-3 uppercase tracking-wider">
+            Prioridade de aquisição garantida para os primeiros cadastrados.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Seção Minimalista: O Que Acompanha (Sem bordas arredondadas) -->
+    <section class="border-t border-stone-200 pt-16 text-left">
+      <div class="max-w-3xl mb-8">
+        <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-stone-400 block mb-1">CONTEÚDO DA CAIXA</span>
+        <h2 class="font-display text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight">
+          Padrão de entrega de instrumento de precisão.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
+        <div class="p-6 bg-white border border-stone-200 rounded-none">
+          <iconify-icon icon="solar:pen-bold" class="text-xl text-stone-900 mb-3 block"></iconify-icon>
+          <h3 class="font-display text-base font-bold text-stone-900 mb-1">Caneta Numerada a Laser</h3>
+          <p class="text-stone-500 font-light leading-relaxed text-[11px]">
+            Corpo monobloco usinado em alumínio anodizado com identificador de série gravado na lateral.
+          </p>
+        </div>
+
+        <div class="p-6 bg-white border border-stone-200 rounded-none">
+          <iconify-icon icon="solar:box-minimalistic-bold" class="text-xl text-stone-900 mb-3 block"></iconify-icon>
+          <h3 class="font-display text-base font-bold text-stone-900 mb-1">Estojo Magnético Monobloco</h3>
+          <p class="text-stone-500 font-light leading-relaxed text-[11px]">
+            Estojo metálico com berço de apoio aveludado e câmara de vedação hermética isométrica.
+          </p>
+        </div>
+
+        <div class="p-6 bg-white border border-stone-200 rounded-none">
+          <iconify-icon icon="solar:document-bold" class="text-xl text-stone-900 mb-3 block"></iconify-icon>
+          <h3 class="font-display text-base font-bold text-stone-900 mb-1">Certificado de Aferição</h3>
+          <p class="text-stone-500 font-light leading-relaxed text-[11px]">
+            Cartão com laudo óptico micrométrico de tolerância do lote e termo de garantia vitalícia.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal Interativo Minimalista e Quadrado (Sem bordas arredondadas) -->
+  <div
+    id="notifyModalBackdrop"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="notifyModalTitle"
+  >
+    <div
+      id="notifyModalBox"
+      class="bg-white border border-stone-300 rounded-none p-6 sm:p-8 max-w-md w-full shadow-2xl transform translate-y-4 transition-transform duration-300"
+    >
+      <div class="flex justify-between items-center mb-4">
+        <span class="font-mono text-[10px] uppercase tracking-widest text-stone-500 bg-stone-100 px-2 py-0.5 rounded-none">
+          Lista de Espera
+        </span>
+        <button
+          type="button"
+          id="closeNotifyModalBtn"
+          class="text-stone-400 hover:text-stone-900 transition-colors p-1 cursor-pointer rounded-none"
+          aria-label="Fechar janela"
+        >
+          <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
+        </button>
+      </div>
+
+      <h3 class="font-display text-xl sm:text-2xl font-bold text-stone-900 mb-1" id="notifyModalTitle">
+        Avise-me quando disponível
+      </h3>
+      <p class="font-mono text-xs text-stone-500 mb-4" id="notifyProductName">
+        ARTOOLS Pigmentum 0.1
+      </p>
+
+      <form id="notifyForm" class="space-y-3.5">
+        <!-- 1. Nome -->
+        <div>
+          <label for="notifyName" class="block font-mono text-[11px] uppercase tracking-wider text-stone-600 mb-1">
+            Nome Completo
+          </label>
+          <input
+            type="text"
+            id="notifyName"
+            required
+            placeholder="Digite seu nome"
+            class="w-full px-3 py-2 bg-stone-50 border border-stone-300 text-stone-900 font-sans text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:border-stone-900 focus:bg-white transition-all rounded-none"
+          />
+        </div>
+
+        <!-- 2. Telefone -->
+        <div>
+          <label for="notifyPhone" class="block font-mono text-[11px] uppercase tracking-wider text-stone-600 mb-1">
+            Telefone / WhatsApp
+          </label>
+          <input
+            type="tel"
+            id="notifyPhone"
+            required
+            placeholder="(11) 99999-9999"
+            class="w-full px-3 py-2 bg-stone-50 border border-stone-300 text-stone-900 font-sans text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:border-stone-900 focus:bg-white transition-all rounded-none"
+          />
+        </div>
+
+        <!-- 3. E-mail -->
+        <div>
+          <label for="notifyEmail" class="block font-mono text-[11px] uppercase tracking-wider text-stone-600 mb-1">
+            E-mail Profissional
+          </label>
+          <input
+            type="email"
+            id="notifyEmail"
+            required
+            placeholder="seuemail@exemplo.com"
+            class="w-full px-3 py-2 bg-stone-50 border border-stone-300 text-stone-900 font-sans text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:border-stone-900 focus:bg-white transition-all rounded-none"
+          />
+        </div>
+
+        <p class="text-[10px] text-stone-500 leading-relaxed font-light pt-1">
+          Seus dados serão utilizados exclusivamente para notificação de liberação deste lote.
+        </p>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <Button
+            type="button"
+            rounded="rounded-none"
+            variant="secondary"
+            size="sm"
+            id="cancelNotifyBtn"
+          >
+            Cancelar
+          </Button>
+
+          <Button
+            type="submit"
+            rounded="rounded-none"
+            variant="primary"
+            size="sm"
+            icon="solar:check-circle-bold"
+            iconPosition="right"
+          >
+            Confirmar Aviso
+          </Button>
+        </div>
+      </form>
+
+      <!-- Mensagem de Sucesso Instantânea -->
+      <div id="notifySuccessMsg" class="hidden mt-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono rounded-none">
+        ✓ Registrado com sucesso! Você será notificado em primeira mão.
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts Interativos da Página de Detalhes -->
+  <script is:inline>
+    // Troca de Imagem da Galeria
+    function switchImage(src, btn) {
+      const mainImg = document.getElementById('mainProductImage');
+      if (mainImg) {
+        mainImg.src = src;
+      }
+      document.querySelectorAll('.thumb-btn').forEach(b => {
+        b.classList.remove('border-2', 'border-stone-900');
+        b.classList.add('border', 'border-stone-200');
+      });
+      if (btn) {
+        btn.classList.remove('border', 'border-stone-200');
+        btn.classList.add('border-2', 'border-stone-900');
+      }
+    }
+    window.switchImage = switchImage;
+
+    // Seletor de Calibre Minimalista
+    document.querySelectorAll('.caliber-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.caliber-btn').forEach(b => {
+          b.className = 'caliber-btn py-2.5 border border-stone-300 bg-white text-stone-700 hover:border-stone-900 text-center transition-colors rounded-none cursor-pointer';
+        });
+        btn.className = 'caliber-btn py-2.5 border-2 border-stone-900 bg-stone-900 text-white font-medium text-center rounded-none cursor-pointer';
+      });
+    });
+
+    // Funções do Modal de Aviso
+    function openNotifyModal(productName) {
+      const modal = document.getElementById('notifyModalBackdrop');
+      const box = document.getElementById('notifyModalBox');
+      const prodEl = document.getElementById('notifyProductName');
+      const form = document.getElementById('notifyForm');
+      const success = document.getElementById('notifySuccessMsg');
+      const nameInput = document.getElementById('notifyName');
+      const phoneInput = document.getElementById('notifyPhone');
+      const emailInput = document.getElementById('notifyEmail');
+
+      if (!modal || !box) return;
+
+      if (prodEl) prodEl.textContent = productName;
+      if (form) form.classList.remove('hidden');
+      if (success) success.classList.add('hidden');
+      if (nameInput) nameInput.value = '';
+      if (phoneInput) phoneInput.value = '';
+      if (emailInput) emailInput.value = '';
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      box.classList.remove('translate-y-4');
+      box.classList.add('translate-y-0');
+
+      setTimeout(() => nameInput?.focus(), 150);
+    }
+    window.openNotifyModal = openNotifyModal;
+
+    function closeNotifyModal() {
+      const modal = document.getElementById('notifyModalBackdrop');
+      const box = document.getElementById('notifyModalBox');
+      if (!modal || !box) return;
+
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      box.classList.add('translate-y-4');
+      box.classList.remove('translate-y-0');
+    }
+    window.closeNotifyModal = closeNotifyModal;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('notifyModalBackdrop');
+      const closeBtn = document.getElementById('closeNotifyModalBtn');
+      const cancelBtn = document.getElementById('cancelNotifyBtn');
+      const form = document.getElementById('notifyForm');
+      const success = document.getElementById('notifySuccessMsg');
+      const phoneInput = document.getElementById('notifyPhone');
+
+      // Máscara automática de telefone
+      phoneInput?.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '');
+        if (val.length > 11) val = val.substring(0, 11);
+        if (val.length > 6) {
+          e.target.value = `(${val.substring(0, 2)}) ${val.substring(2, 7)}-${val.substring(7)}`;
+        } else if (val.length > 2) {
+          e.target.value = `(${val.substring(0, 2)}) ${val.substring(2)}`;
+        } else if (val.length > 0) {
+          e.target.value = `(${val}`;
+        }
+      });
+
+      closeBtn?.addEventListener('click', closeNotifyModal);
+      cancelBtn?.addEventListener('click', closeNotifyModal);
+
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeNotifyModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeNotifyModal();
+      });
+
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (form && success) {
+          form.classList.add('hidden');
+          success.classList.remove('hidden');
+          setTimeout(() => {
+            closeNotifyModal();
+          }, 2000);
+        }
+      });
+    });
+  </script>
+</Layout>

@@ -1,0 +1,516 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+
+interface PenSpec {
+  label: string;
+  value: string;
+}
+
+interface PenProduct {
+  id: string;
+  name: string;
+  series: string;
+  caliber: string;
+  image: string;
+  badge: string;
+  colorName: string;
+  colorHex: string;
+  imgFilter: string;
+  bgAtmosphere: string;
+  status: string;
+  description: string;
+  specs: PenSpec[];
+}
+
+const pens: PenProduct[] = [
+  {
+    id: "pen-01",
+    name: "ARTOOLS Studio White 0.1",
+    series: "SÉRIE EDITORIAL // CERAKOTE",
+    caliber: "0.1 MM",
+    image: "/assets/images/pens/pen_studio_white.jpg",
+    badge: "BRANCO NEVE",
+    colorName: "Cerakote White",
+    colorHex: "#FFFFFF",
+    imgFilter: "none",
+    bgAtmosphere: "bg-[#F3F3F1]",
+    status: "Lote Limitado",
+    description: "Chassi cilíndrico minimalista em cerâmica Cerakote branco fosco de toque sedoso e clipe em cromo espelhado.",
+    specs: [
+      { label: "Ponta", value: "Carbeto Tungstênio" },
+      { label: "Tolerância", value: "±0.002 mm" },
+      { label: "Acabamento", value: "Branco Neve" }
+    ]
+  },
+  {
+    id: "pen-02",
+    name: "ARTOOLS Phantom DLC 0.2",
+    series: "SÉRIE STEALTH // PRETO ABSOLUTO",
+    caliber: "0.2 MM",
+    image: "/assets/images/pens/pen_stealth_black.jpg",
+    badge: "DLC BLACK",
+    colorName: "Carbono DLC",
+    colorHex: "#18181B",
+    imgFilter: "none",
+    bgAtmosphere: "bg-[#18181B]",
+    status: "Pré-venda 2026",
+    description: "Corpo facetado octogonal monolítico com revestimento Diamond-Like Carbon preto espacial e grip diamantado industrial.",
+    specs: [
+      { label: "Ponta", value: "Tungstênio DLC" },
+      { label: "Corpo", value: "Octogonal 14.8g" },
+      { label: "Acabamento", value: "Preto Fosco" }
+    ]
+  },
+  {
+    id: "pen-03",
+    name: "ARTOOLS Abyss Cobalt 0.15",
+    series: "SÉRIE OCEÂNICA // ANODIZAÇÃO IÔNICA",
+    caliber: "0.15 MM",
+    image: "/assets/images/pens/pen_cobalt_blue.jpg",
+    badge: "AZUL COBALTO",
+    colorName: "Cobalt Blue",
+    colorHex: "#1D4ED8",
+    imgFilter: "none",
+    bgAtmosphere: "bg-[#E6ECF5]",
+    status: "Lote Limitado",
+    description: "Caneta esguia em alumínio suíço com anodização iônica azul cobalto profundo e anéis cromados polidos a mão.",
+    specs: [
+      { label: "Ponta", value: "Nanoesfera 0.15" },
+      { label: "Secagem", value: "0.7s Atômica" },
+      { label: "Acabamento", value: "Azul Cobalto" }
+    ]
+  },
+  {
+    id: "pen-04",
+    name: "ARTOOLS Raw Titanium 0.1",
+    series: "SÉRIE BILLET // MACIÇO GRAU 5",
+    caliber: "0.1 MM",
+    image: "/assets/images/pens/pen_raw_titanium.jpg",
+    badge: "TITÂNIO GRAU 5",
+    colorName: "Titanium Raw",
+    colorHex: "#94A3B8",
+    imgFilter: "none",
+    bgAtmosphere: "bg-[#EAEAEA]",
+    status: "Sob Encomenda",
+    description: "Esculpida em barra maciça de liga aeroespacial Ti-6Al-4V com ranhuras longitudinais usinadas e acionamento bolt-action.",
+    specs: [
+      { label: "Esfera", value: "Rubí Sintético" },
+      { label: "Resistência", value: "Até 400°C" },
+      { label: "Acabamento", value: "Titânio Raw" }
+    ]
+  },
+  {
+    id: "pen-05",
+    name: "ARTOOLS Kinetic Crimson 0.3",
+    series: "SÉRIE VELOCIDADE // CARMIM METÁLICO",
+    caliber: "0.3 MM",
+    image: "/assets/images/pens/pen_crimson_red.jpg",
+    badge: "CARMIM RACING",
+    colorName: "Crimson Red",
+    colorHex: "#B91C1C",
+    imgFilter: "none",
+    bgAtmosphere: "bg-[#F7EBEB]",
+    status: "Aguardando Lote",
+    description: "Perfil aerodinâmico afunilado em vermelho carmim metálico com grip microtexturizado em preto e ponta agulha de alta vazão.",
+    specs: [
+      { label: "Ponta", value: "Cerâmica Zircônia" },
+      { label: "Fluxo", value: "Alta Dinâmica" },
+      { label: "Acabamento", value: "Vermelho Carmim" }
+    ]
+  },
+  {
+    id: "pen-06",
+    name: "ARTOOLS Heritage Emerald 0.5",
+    series: "SÉRIE ARQUITETURA // VERDE OXFORD",
+    caliber: "0.5 MM",
+    image: "/assets/images/pens/pen_oxford_emerald.jpg",
+    badge: "VERDE ESMERALDA",
+    colorName: "Oxford Emerald",
+    colorHex: "#047857",
+    imgFilter: "none",
+    bgAtmosphere: "bg-[#EBF5F0]",
+    status: "Próxima Remessa",
+    description: "Laca brilhante verde esmeralda britânica com silhueta executiva robusta, anéis de calibração e clipe em latão acetinado.",
+    specs: [
+      { label: "Ponta", value: "Duplo Rolamento" },
+      { label: "Calibre", value: "0.5 mm Encorpado" },
+      { label: "Acabamento", value: "Verde Esmeralda" }
+    ]
+  },
+  {
+    id: "pen-07",
+    name: "ARTOOLS Chrono Bronze 0.25",
+    series: "SÉRIE METÁLICA // BRONZE NAVAL",
+    caliber: "0.25 MM",
+    image: "/assets/images/pens/pen_chrono_bronze.jpg",
+    badge: "BRONZE PÁTINA",
+    colorName: "Bronze CuSn8",
+    colorHex: "#B45309",
+    imgFilter: "none",
+    bgAtmosphere: "bg-[#F5EFE9]",
+    status: "Lote Raro",
+    description: "Fundida em bronze fosforoso naval com chassi hexagonal facetado e peso nobre de 24g. Desenvolve pátina viva natural com o uso.",
+    specs: [
+      { label: "Liga", value: "Bronze CuSn8" },
+      { label: "Corpo", value: "Hexagonal 24g" },
+      { label: "Acabamento", value: "Bronze Naval" }
+    ]
+  },
+  {
+    id: "pen-08",
+    name: "ARTOOLS Sovereign Gold 0.1",
+    series: "SÉRIE REAL // BANHO OURO 24K",
+    caliber: "0.1 MM",
+    image: "/assets/images/pens/pen_sovereign_gold.jpg",
+    badge: "OURO 24K",
+    colorName: "Champagne Gold",
+    colorHex: "#D97706",
+    imgFilter: "none",
+    bgAtmosphere: "bg-[#F9F5EC]",
+    status: "Colecionador",
+    description: "Silhueta arquitetônica esbelta com deposição de ouro 24K champagne escovado e estrias diamantadas milimétricas perto da ponta.",
+    specs: [
+      { label: "Revestimento", value: "Ouro PVD 24K" },
+      { label: "Garantia", value: "Vitalícia Numerada" },
+      { label: "Acabamento", value: "Ouro Champagne" }
+    ]
+  },
+  {
+    id: "pen-09",
+    name: "ARTOOLS Nebula Violet 0.05",
+    series: "SÉRIE CIRÚRGICA // VIOLETA PRISMA",
+    caliber: "0.05 MM",
+    image: "/assets/images/pens/pen_nebula_violet.jpg",
+    badge: "VIOLETA NEBULA",
+    colorName: "Prisma Violet",
+    colorHex: "#7E22CE",
+    imgFilter: "none",
+    bgAtmosphere: "bg-[#F2EDF7]",
+    status: "Edição Especial",
+    description: "Caneta geométrica futurista em titânio gunmetal escuro com iridescência roxa-azulada prismática e ponta microscópica de 0.05 mm.",
+    specs: [
+      { label: "Ponta", value: "Nanoesfera 0.05" },
+      { label: "Refração", value: "Prismática" },
+      { label: "Acabamento", value: "Violeta Nebula" }
+    ]
+  }
+];
+---
+
+<Layout title="Catálogo de Produtos — ARTOOLS PRO" description="Conheça a linha completa de instrumentos de calibração micrométrica ARTOOLS PRO.">
+  <main class="min-h-screen pt-28 pb-24 px-6 md:px-12 max-w-[1440px] mx-auto relative z-10">
+
+    <!-- Navegação / Voltar -->
+    <div class="mb-8">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-stone-500 hover:text-stone-900 transition-colors group"
+      >
+        <iconify-icon icon="solar:arrow-left-linear" class="text-sm group-hover:-translate-x-1 transition-transform"></iconify-icon>
+        <span>Voltar para a Página Inicial</span>
+      </a>
+    </div>
+
+    <!-- Cabeçalho do Catálogo (Alinhado à Esquerda) -->
+    <div class="max-w-3xl mb-12 sm:mb-16 text-left">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-stone-300 bg-white/80 backdrop-blur-md mb-4 shadow-sm">
+        <span class="w-1.5 h-1.5 rounded-full bg-stone-900 animate-pulse"></span>
+        <span class="text-[11px] font-mono uppercase tracking-[0.2em] text-stone-600 font-medium">
+          CATÁLOGO 2026 // LINHA COMPLETA
+        </span>
+      </div>
+
+      <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-stone-900 leading-[0.98] mb-4 text-left">
+        Catálogo de Precisão.
+      </h1>
+
+      <p class="font-sans text-base sm:text-lg text-stone-600 leading-relaxed font-light text-left">
+        9 instrumentos com calibração micrométrica suíça. Escolha o calibre, material e perfil hidrodinâmico ideal para o seu traçado.
+      </p>
+    </div>
+
+    <!-- Grid com os 9 Cards de Canetas (Cores e Personalidades Diferentes) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+      {pens.map((pen) => (
+        <article
+          class="bg-white border border-stone-200/90 hover:border-stone-400 transition-all duration-300 shadow-xs hover:shadow-xl flex flex-col justify-between overflow-hidden group relative rounded-none"
+        >
+          <!-- Topo Visual: Foto Real de Estúdio de Cada Caneta (100% da Área Superior) -->
+          <a
+            href="/produto"
+            class="relative w-full h-64 sm:h-72 overflow-hidden block cursor-pointer bg-stone-100"
+          >
+            <!-- Imagem de Produto Autêntica e Exclusiva -->
+            <img
+              src={pen.image}
+              alt={pen.name}
+              loading="lazy"
+              class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
+
+            <!-- Badges Minimalistas Flutuantes -->
+            <div class="absolute top-3.5 left-3.5 z-10 flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-stone-900/90 backdrop-blur-sm text-white font-mono text-[10px] uppercase tracking-wider font-semibold">
+                {pen.caliber}
+              </span>
+            </div>
+
+            <!-- Pílula com Cor & Acabamento da Caneta -->
+            <div class="absolute top-3.5 right-3.5 z-10">
+              <span class="px-2.5 py-1 bg-white/95 backdrop-blur-sm border border-stone-200 text-stone-800 font-mono text-[10px] uppercase tracking-wider font-medium flex items-center gap-1.5 shadow-xs">
+                <span class="w-2 h-2 rounded-full border border-stone-400/40" style={`background-color: ${pen.colorHex};`}></span>
+                <span>{pen.colorName}</span>
+              </span>
+            </div>
+
+            <!-- Status do Lote -->
+            <div class="absolute bottom-3 left-3.5 z-10 font-mono text-[10px] text-stone-600 uppercase tracking-widest flex items-center gap-1.5 bg-white/90 backdrop-blur-sm px-2.5 py-0.5 border border-stone-200/80">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>{pen.status}</span>
+            </div>
+          </a>
+
+          <!-- Corpo do Card Minimalista -->
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-stone-400 block mb-1">
+                {pen.series}
+              </span>
+
+              <h2 class="font-display text-xl sm:text-2xl font-bold text-stone-900 tracking-tight leading-snug mb-2">
+                <a href="/produto" class="hover:text-stone-600 transition-colors">
+                  {pen.name}
+                </a>
+              </h2>
+
+              <p class="text-stone-500 text-xs sm:text-[13px] font-light leading-relaxed mb-4">
+                {pen.description}
+              </p>
+
+              <!-- Especificações Técnicas em Linha Discreta e Minimalista -->
+              <div class="pt-3 border-t border-stone-100 mb-6 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-stone-500">
+                {pen.specs.map((spec) => (
+                  <span class="flex items-center gap-1">
+                    <span class="text-stone-400">{spec.label}:</span>
+                    <strong class="font-medium text-stone-800">{spec.value}</strong>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <!-- Botão de Ação "Avise-me" Direcionando para a 3ª Página (Detalhes do Produto) -->
+            <div class="pt-2">
+              <Button
+                href="/produto"
+                rounded="rounded-none"
+                variant="primary"
+                size="md"
+                class="w-full text-center"
+                icon="solar:bell-bold"
+                iconPosition="left"
+              >
+                Avise-me
+              </Button>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </main>
+
+  <!-- Modal Interativo "Avise-me Quando Chegar" -->
+  <div
+    id="notifyModalBackdrop"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="notifyModalTitle"
+  >
+    <div
+      id="notifyModalBox"
+      class="bg-white border border-stone-300 rounded-none p-6 sm:p-8 max-w-md w-full shadow-2xl transform translate-y-4 transition-transform duration-300"
+    >
+      <div class="flex justify-between items-center mb-4">
+        <span class="font-mono text-xs uppercase tracking-widest text-stone-500 bg-stone-100 px-2 py-0.5">
+          Lista de Espera
+        </span>
+        <button
+          type="button"
+          id="closeNotifyModalBtn"
+          class="text-stone-400 hover:text-stone-900 transition-colors p-1"
+          aria-label="Fechar janela"
+        >
+          <iconify-icon icon="solar:close-circle-linear" class="text-xl"></iconify-icon>
+        </button>
+      </div>
+
+      <h3 class="font-display text-xl sm:text-2xl font-bold text-stone-900 mb-1" id="notifyModalTitle">
+        Avise-me quando disponível
+      </h3>
+      <p class="font-mono text-xs text-stone-500 mb-4" id="notifyProductName">
+        ARTOOLS Pigmentum
+      </p>
+
+      <form id="notifyForm" class="space-y-3.5">
+        <!-- 1. Nome -->
+        <div>
+          <label for="notifyName" class="block font-mono text-[11px] uppercase tracking-wider text-stone-600 mb-1">
+            Nome Completo
+          </label>
+          <input
+            type="text"
+            id="notifyName"
+            required
+            placeholder="Digite seu nome"
+            class="w-full px-3 py-2 bg-stone-50 border border-stone-300 text-stone-900 font-sans text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:border-stone-900 focus:bg-white transition-all rounded-none"
+          />
+        </div>
+
+        <!-- 2. Telefone -->
+        <div>
+          <label for="notifyPhone" class="block font-mono text-[11px] uppercase tracking-wider text-stone-600 mb-1">
+            Telefone / WhatsApp
+          </label>
+          <input
+            type="tel"
+            id="notifyPhone"
+            required
+            placeholder="(11) 99999-9999"
+            class="w-full px-3 py-2 bg-stone-50 border border-stone-300 text-stone-900 font-sans text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:border-stone-900 focus:bg-white transition-all rounded-none"
+          />
+        </div>
+
+        <!-- 3. E-mail -->
+        <div>
+          <label for="notifyEmail" class="block font-mono text-[11px] uppercase tracking-wider text-stone-600 mb-1">
+            E-mail Profissional
+          </label>
+          <input
+            type="email"
+            id="notifyEmail"
+            required
+            placeholder="seuemail@exemplo.com"
+            class="w-full px-3 py-2 bg-stone-50 border border-stone-300 text-stone-900 font-sans text-xs sm:text-sm placeholder:text-stone-400 focus:outline-none focus:border-stone-900 focus:bg-white transition-all rounded-none"
+          />
+        </div>
+
+        <p class="text-[10px] text-stone-500 leading-relaxed font-light pt-1">
+          Seus dados serão utilizados exclusivamente para notificação de liberação deste lote.
+        </p>
+
+        <div class="flex items-center justify-end gap-3 pt-2">
+          <Button
+            type="button"
+            rounded="rounded-none"
+            variant="secondary"
+            size="sm"
+            id="cancelNotifyBtn"
+          >
+            Cancelar
+          </Button>
+
+          <Button
+            type="submit"
+            rounded="rounded-none"
+            variant="primary"
+            size="sm"
+            icon="solar:check-circle-bold"
+            iconPosition="right"
+          >
+            Confirmar Aviso
+          </Button>
+        </div>
+      </form>
+
+      <!-- Mensagem de Sucesso Instantânea -->
+      <div id="notifySuccessMsg" class="hidden mt-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono">
+        ✓ Perfeito! Registramos seu e-mail. Você será notificado em primeira mão.
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Interativo do Modal de Notificação -->
+  <script is:inline>
+    function openNotifyModal(productName) {
+      const modal = document.getElementById('notifyModalBackdrop');
+      const box = document.getElementById('notifyModalBox');
+      const prodEl = document.getElementById('notifyProductName');
+      const form = document.getElementById('notifyForm');
+      const success = document.getElementById('notifySuccessMsg');
+      const nameInput = document.getElementById('notifyName');
+      const phoneInput = document.getElementById('notifyPhone');
+      const emailInput = document.getElementById('notifyEmail');
+
+      if (!modal || !box) return;
+
+      if (prodEl) prodEl.textContent = productName;
+      if (form) form.classList.remove('hidden');
+      if (success) success.classList.add('hidden');
+      if (nameInput) nameInput.value = '';
+      if (phoneInput) phoneInput.value = '';
+      if (emailInput) emailInput.value = '';
+
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      box.classList.remove('translate-y-4');
+      box.classList.add('translate-y-0');
+
+      setTimeout(() => nameInput?.focus(), 150);
+    }
+    window.openNotifyModal = openNotifyModal;
+
+    function closeNotifyModal() {
+      const modal = document.getElementById('notifyModalBackdrop');
+      const box = document.getElementById('notifyModalBox');
+      if (!modal || !box) return;
+
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      box.classList.add('translate-y-4');
+      box.classList.remove('translate-y-0');
+    }
+    window.closeNotifyModal = closeNotifyModal;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const phoneInput = document.getElementById('notifyPhone');
+      phoneInput?.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '');
+        if (val.length > 11) val = val.substring(0, 11);
+        if (val.length > 6) {
+          e.target.value = `(${val.substring(0, 2)}) ${val.substring(2, 7)}-${val.substring(7)}`;
+        } else if (val.length > 2) {
+          e.target.value = `(${val.substring(0, 2)}) ${val.substring(2)}`;
+        } else if (val.length > 0) {
+          e.target.value = `(${val}`;
+        }
+      });
+      const modal = document.getElementById('notifyModalBackdrop');
+      const closeBtn = document.getElementById('closeNotifyModalBtn');
+      const cancelBtn = document.getElementById('cancelNotifyBtn');
+      const form = document.getElementById('notifyForm');
+      const success = document.getElementById('notifySuccessMsg');
+
+      closeBtn?.addEventListener('click', closeNotifyModal);
+      cancelBtn?.addEventListener('click', closeNotifyModal);
+
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeNotifyModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeNotifyModal();
+      });
+
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (form && success) {
+          form.classList.add('hidden');
+          success.classList.remove('hidden');
+          setTimeout(() => {
+            closeNotifyModal();
+          }, 2000);
+        }
+      });
+    });
+  </script>
+</Layout>
